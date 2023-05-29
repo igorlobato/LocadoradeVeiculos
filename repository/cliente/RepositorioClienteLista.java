@@ -11,28 +11,43 @@ public class RepositorioClienteLista implements RepositorioCliente{
   }
 
     @Override
-    public void inserirCliente(Cliente cliente) throws CPFJaCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  public void inserirCliente(Cliente cliente) throws CPFJaCadastradoException {
+    try {
+      buscarCliente(cliente.getCpf());
+      throw new CPFJaCadastradoException();
+    } catch (ClienteNaoCadastradoException ex) {
+      clientes.add(cliente);
     }
+  }
 
-    @Override
-    public void alterarCliente(Cliente cliente) throws ClienteNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  @Override
+  public void alterarCliente(Cliente cliente) throws ClienteNaoCadastradoException {
+    // Em memória, não há necessidade de atualizar objeto
+    buscarCliente(cliente.getCpf());
+  }
 
-    @Override
-    public void deletarCliente(Cliente cliente) throws ClienteNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+  @Override
+  public void deletarCliente(Cliente cliente) throws ClienteNaoCadastradoException {
+    if (!clientes.remove(cliente)) {
+      throw new ClienteNaoCadastradoException();
     }
+  }
 
-    @Override
-    public Cliente buscarCliente(String cpf) throws ClienteNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  @Override
+  public Cliente buscarCliente(String cpf) throws ClienteNaoCadastradoException {
 
-    @Override
-    public List<Cliente> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    for (Cliente cliente : clientes) {
+      if (cliente.getCpf().equals(cpf)) {
+        return cliente;
+      }
     }
-    
+    throw new ClienteNaoCadastradoException();
+
+  }
+
+  @Override
+  public List<Cliente> getAll() {
+    return new ArrayList<>(clientes);
+  }
+
 }

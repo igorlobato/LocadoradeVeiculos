@@ -1,4 +1,6 @@
 package model.veiculos;
+import model.cliente.Cliente;
+
 public abstract class Veiculo {
     protected String modelo;
     protected String marca;
@@ -7,6 +9,7 @@ public abstract class Veiculo {
     protected int anodefabricao;
     protected double quilometragem;
     protected String categoria;
+    protected Cliente cliente;
 
     public Veiculo(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
             String categoria) {
@@ -78,7 +81,8 @@ public abstract class Veiculo {
     @Override
     public String toString() {
         return "Veiculo{" + "modelo=" + modelo + ", marca=" + marca + ", placa=" + placa + ", cor=" + cor + ", anodefabricao=" 
-                + anodefabricao + ", Quilometragem=" + quilometragem + ", Categoria=" + categoria +'}';
+                + anodefabricao + ", Quilometragem=" + quilometragem + ", Categoria=" + categoria +
+                ", Cliente=" + cliente +'}';
     }
     
     

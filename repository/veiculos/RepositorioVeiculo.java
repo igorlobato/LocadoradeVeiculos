@@ -13,7 +13,5 @@ public interface RepositorioVeiculo {
     Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException;
 
     List<Veiculo> getAll();
-
-    List<Veiculo> getAll(String modelo);
     
 }

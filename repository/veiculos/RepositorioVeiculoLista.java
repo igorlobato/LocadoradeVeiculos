@@ -4,42 +4,50 @@ import java.util.List;
 import model.veiculos.Veiculo;
 
 public class RepositorioVeiculoLista implements RepositorioVeiculo{
-    
-    List<Veiculo> veiculo;
-    
+    List<Veiculo> veiculos;
 
     public RepositorioVeiculoLista() {
-        veiculo = new ArrayList<>();
+        veiculos = new ArrayList<>();
     }
 
     @Override
     public Veiculo cadastrarVeiculo(Veiculo veiculo) throws VeiculoJaCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      try {
+      verificarDisponibilidade(veiculo.getModelo());
+      throw new VeiculoJaCadastradoException();
+    } catch (VeiculoNaoCadastradoException ex) {
+      veiculos.add(veiculo);
+    }
+        return null;
     }
 
     @Override
     public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        verificarDisponibilidade(veiculo.getModelo());
+    //verificar depois se dá para alterar por placa
     }
 
     @Override
     public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (!veiculos.remove(veiculo)) {
+            throw new VeiculoNaoCadastradoException();
+        }
     }
 
     @Override
     public Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        for (Veiculo veiculo : veiculos) {
+          if (veiculo.getModelo().equals(modelo)) {
+            return veiculo;
+          }
+        }
+        throw new VeiculoNaoCadastradoException();
     }
+
 
     @Override
     public List<Veiculo> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<Veiculo> getAll(String modelo) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new ArrayList<>(veiculos);
     }
     
 }

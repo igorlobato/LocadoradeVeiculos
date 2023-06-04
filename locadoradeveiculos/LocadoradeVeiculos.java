@@ -1,6 +1,8 @@
 package locadoradeveiculos;
 
 import model.cliente.Cliente;
+import model.veiculos.Carro;
+import model.veiculos.Moto;
 import model.veiculos.Veiculo;
 import repository.cliente.ClienteNaoCadastradoException;
 import repository.cliente.CPFJaCadastradoException;
@@ -35,17 +37,22 @@ public class LocadoradeVeiculos {
             repClientes.inserirCliente(new Cliente("Ana", "055.465.128.35", "Santana 33", "(55)991654621",
                     "1/4/98", "F", 2020));
             
-            repVeiculos.cadastrarVeiculo(new Veiculo("CG 160 Titan", "Honda", "OSA-6549", "Vermolho", 2023,
-            5.5, "Moto") {});
+            Cliente ana = repClientes.buscarCliente("055.465.128.35");
+            Cliente pedro = repClientes.buscarCliente("024.204.348.45");
             
-            repVeiculos.cadastrarVeiculo(new Veiculo("Mobi", "Fiat", "ASO-6549", "Preto", 2020,
-            55.5, "A") {});
+            repVeiculos.cadastrarVeiculo(new Moto("CG 160 Titan", "Honda", "OSA-6549", "Vermolho", 2023,
+            5.5, "Motão", ana, 150, "Bicilindrico"));
+            
+            repVeiculos.cadastrarVeiculo(new Carro("Mobi", "Fiat", "ASO-6549", "Preto", 2020,
+            55.5, "A", pedro, 4, "Gasolina", 5));
             
         } catch (CPFJaCadastradoException e1) {
             System.out.println(e1.getMessage());
         } catch (VeiculoJaCadastradoException e2) {
             System.out.println(e2.getMessage());
+        } catch (ClienteNaoCadastradoException e3) {
+        System.out.println(e3.getMessage());
     }
-    }
+}
 }
 

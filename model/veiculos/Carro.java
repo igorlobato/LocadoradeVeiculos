@@ -1,13 +1,16 @@
 package model.veiculos;
+
+import model.cliente.Cliente;
+
 public class Carro extends Veiculo{
     private int numerodeportas;
     private String tipodecombustivel;
     private int capacidadedoportamalas;
 
     public Carro(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
-            String categoria, int numerodeportas,
+            String categoria, Cliente cliente, int numerodeportas,
             String tipodecombustivel, int capacidadedoportamalas) {
-        super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria);
+        super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria, cliente);
         this.numerodeportas = numerodeportas;
         this.tipodecombustivel = tipodecombustivel;
         this.capacidadedoportamalas = capacidadedoportamalas;

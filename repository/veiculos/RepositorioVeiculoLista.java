@@ -18,7 +18,7 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     } catch (VeiculoNaoCadastradoException ex) {
       veiculos.add(veiculo);
     }
-        return null;
+        return veiculo;
     }
 
     @Override

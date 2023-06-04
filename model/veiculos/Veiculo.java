@@ -12,7 +12,7 @@ public abstract class Veiculo {
     protected Cliente cliente;
 
     public Veiculo(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
-            String categoria) {
+            String categoria, Cliente cliente) {
         this.modelo = modelo;
         this.marca = marca;
         this.placa = placa;
@@ -20,6 +20,7 @@ public abstract class Veiculo {
         this.anodefabricao = anodefabricao;
         this.quilometragem = quilometragem;
         this.categoria = categoria;
+        this.cliente = cliente;
     }
 
     public double getQuilometragem() {
@@ -76,6 +77,14 @@ public abstract class Veiculo {
 
     public void setAnodefabricao(int anodefabricao) {
         this.anodefabricao = anodefabricao;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override

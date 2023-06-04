@@ -1,11 +1,14 @@
 package model.veiculos;
+
+import model.cliente.Cliente;
+
 public class Moto extends Veiculo{
     private int cilindrada;
     private String tipodemotor;
 
     public Moto(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
-            String categoria, int cilindrada, String tipodemotor) {
-        super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria);
+            String categoria, Cliente cliente, int cilindrada, String tipodemotor) {
+        super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria, cliente);
         this.cilindrada = cilindrada;
         this.tipodemotor = tipodemotor;
     }

@@ -1,13 +1,23 @@
 package Facade;
 import java.util.List;
+import model.cliente.Cliente;
+import model.veiculos.Veiculo;
+import repository.cliente.CPFJaCadastradoException;
+import repository.cliente.ClienteNaoCadastradoException;
+import repository.cliente.RepositorioCliente;
+import repository.cliente.RepositorioClienteLista;
+import repository.veiculos.RepositorioVeiculo;
+import repository.veiculos.RepositorioVeiculoLista;
+import repository.veiculos.VeiculoJaCadastradoException;
+import repository.veiculos.VeiculoNaoCadastradoException;
 
 public class LocadoraFacade{
-  /*private RepositorioCliente repositorioCliente;
-  private RepositorioConta repositorioConta;
+  private RepositorioCliente repositorioCliente;
+  private RepositorioVeiculo repositorioVeiculo;
 
-  public BancoFacade() {
+  public LocadoraFacade() {
     repositorioCliente = new RepositorioClienteLista();
-    repositorioConta = new RepositorioContaLista();
+    repositorioVeiculo = new RepositorioVeiculoLista();
   }  
 
   public void inserirCliente(Cliente cliente) throws CPFJaCadastradoException {
@@ -22,10 +32,10 @@ public class LocadoraFacade{
       return repositorioCliente.buscarCliente(cpf);
   }
     
-  public void excluirCliente(Cliente cliente) throws BancoException, ClienteNaoCadastradoException {
-  List<Conta> contasDoCliente = repositorioConta.getAll(cliente.getCpf());
+  public void excluirCliente(Cliente cliente) throws LocadoraException, ClienteNaoCadastradoException {
+  List<Veiculo> contasDoCliente = repositorioVeiculo.getAll(cliente.getCpf());
   if (!contasDoCliente.isEmpty()) {
-    throw new BancoException("Não é possível excluir um cliente com contas cadastradas");
+    throw new LocadoraException("Não é possível excluir um cliente com veiculos alugados");
   }
   repositorioCliente.deletarCliente(cliente);
 }
@@ -35,27 +45,24 @@ public class LocadoraFacade{
       return repositorioCliente.getAll();
   }
     
-  public Conta inserirConta(Conta conta) throws ContaJaCadastradaException {
-    repositorioConta.inserirConta(conta);
-    return conta;
+  public Veiculo cadastrarVeiculo(Veiculo veiculo) throws VeiculoJaCadastradoException {
+    repositorioVeiculo.cadastrarVeiculo(veiculo);
+    return veiculo;
   }
 
-  public Conta buscarConta(String numero) throws ContaNaoCadastradaException  {
-    return repositorioConta.buscarConta(numero);
+  public Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException  {
+    return repositorioVeiculo.verificarDisponibilidade(modelo);
   }
 
-  public void alterarConta(Conta conta) throws ContaNaoCadastradaException  {
-      repositorioConta.alterarConta(conta);
+  public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException  {
+      repositorioVeiculo.alterarVeiculo(veiculo);
   }
     
-public void excluirConta(Conta conta) throws ContaNaoCadastradaException, BancoException {
-  if (conta.getSaldo() != 0) {
-    throw new BancoException("Não é possível excluir uma conta com saldo não zero");
-  }
-  repositorioConta.deletarConta(conta);
+public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException, LocadoraException {
+      repositorioVeiculo.deletarVeiculo(veiculo);
 }
 
-    
+    /*
   public void deposito(String numero, double valor) throws ContaNaoCadastradaException {
     Conta conta = repositorioConta.buscarConta(numero);
     conta.depositar(valor);
@@ -75,15 +82,17 @@ public void excluirConta(Conta conta) throws ContaNaoCadastradaException, BancoE
     repositorioConta.alterarConta(conta1);
     repositorioConta.alterarConta(conta2);
   }
+
+*/
     
-  public List<Conta> getAllContas() {
-    return repositorioConta.getAll();
+  public List<Veiculo> getAllVeiculos() {
+    return repositorioVeiculo.getAll();
   }
 
-  public List<Conta> getAllContas(String cpf) {
-    return repositorioConta.getAll(cpf);
+  public List<Veiculo> getAllVeiculos(String modelo) {
+    return repositorioVeiculo.getAll(modelo);
   }
 
   public void exit() {
-  }*/
+  }
 }

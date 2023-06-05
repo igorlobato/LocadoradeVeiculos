@@ -27,6 +27,7 @@ public class LocadoradeVeiculos {
             
             for (Veiculo veiculo : repVeiculos.getAll()) {
                 System.out.println(veiculo);
+                System.out.println("");
     }}
 
     private static void Teste() {

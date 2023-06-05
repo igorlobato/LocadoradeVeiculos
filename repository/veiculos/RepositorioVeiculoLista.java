@@ -49,5 +49,16 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     public List<Veiculo> getAll() {
         return new ArrayList<>(veiculos);
     }
+
+    @Override
+    public List<Veiculo> getAll(String cpf) {
+        List<Veiculo> lista = new ArrayList<>();
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.getCliente().getCpf().equals(cpf)) {
+                lista.add(veiculo);
+            }
+        }
+        return lista;
+    }
     
 }

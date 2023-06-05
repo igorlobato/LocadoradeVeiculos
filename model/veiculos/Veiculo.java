@@ -91,7 +91,7 @@ public abstract class Veiculo {
     public String toString() {
         return "Veiculo{" + "modelo=" + modelo + ", marca=" + marca + ", placa=" + placa + ", cor=" + cor + ", anodefabricao=" 
                 + anodefabricao + ", Quilometragem=" + quilometragem + ", Categoria=" + categoria +
-                ", Cliente=" + cliente +'}';
+                ", \n Cliente=" + cliente +'}';
     }
     
     

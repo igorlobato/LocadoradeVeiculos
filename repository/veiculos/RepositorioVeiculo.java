@@ -14,4 +14,5 @@ public interface RepositorioVeiculo {
 
     List<Veiculo> getAll();
     
+    List<Veiculo> getAll(String modelo);
 }

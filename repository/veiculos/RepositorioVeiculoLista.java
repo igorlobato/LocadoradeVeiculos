@@ -51,10 +51,10 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     }
 
     @Override
-    public List<Veiculo> getAll(String cpf) {
+    public List<Veiculo> getAll(String modelo) {
         List<Veiculo> lista = new ArrayList<>();
         for (Veiculo veiculo : veiculos) {
-            if (veiculo.getCliente().getCpf().equals(cpf)) {
+            if (veiculo.getModelo().getCpf().equals(cpf)) {
                 lista.add(veiculo);
             }
         }

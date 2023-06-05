@@ -8,9 +8,9 @@ public class Carro extends Veiculo{
     private int capacidadedoportamalas;
 
     public Carro(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
-            String categoria, Cliente cliente, int numerodeportas,
+            String categoria, int numerodeportas,
             String tipodecombustivel, int capacidadedoportamalas) {
-        super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria, cliente);
+        super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria);
         this.numerodeportas = numerodeportas;
         this.tipodecombustivel = tipodecombustivel;
         this.capacidadedoportamalas = capacidadedoportamalas;

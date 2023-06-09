@@ -50,8 +50,8 @@ public class LocadoraFacade{
     return veiculo;
   }
 
-  public Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException  {
-    return repositorioVeiculo.verificarDisponibilidade(modelo);
+  public Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException {
+        return repositorioVeiculo.verificarDisponibilidade(modelo);
   }
 
   public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException  {

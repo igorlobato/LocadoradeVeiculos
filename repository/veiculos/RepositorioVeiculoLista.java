@@ -54,7 +54,7 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     public List<Veiculo> getAll(String modelo) {
         List<Veiculo> lista = new ArrayList<>();
         for (Veiculo veiculo : veiculos) {
-            if (veiculo.getModelo().getCpf().equals(cpf)) {
+            if (veiculo.getModelo().equals(modelo)) {
                 lista.add(veiculo);
             }
         }

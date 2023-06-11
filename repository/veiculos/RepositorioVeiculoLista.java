@@ -35,9 +35,9 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     }
 
     @Override
-    public Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException {
+    public Veiculo verificarDisponibilidade(String placa) throws VeiculoNaoCadastradoException {
         for (Veiculo veiculo : veiculos) {
-          if (veiculo.getModelo().equals(modelo)) {
+          if (veiculo.getPlaca().equals(placa)) {
             return veiculo;
           }
         }
@@ -51,10 +51,10 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     }
 
     @Override
-    public List<Veiculo> getAll(String modelo) {
+    public List<Veiculo> getAll(String placa) {
         List<Veiculo> lista = new ArrayList<>();
         for (Veiculo veiculo : veiculos) {
-            if (veiculo.getModelo().equals(modelo)) {
+            if (veiculo.getPlaca().equals(placa)) {
                 lista.add(veiculo);
             }
         }

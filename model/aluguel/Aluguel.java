@@ -128,6 +128,8 @@ public class Aluguel {
         this.valorDiaria = 340;
     } else if (categoriaCarro.equals("mpv")) {
         this.valorDiaria = 390;
+    }else{
+        this.valorDiaria = 100;
     }
 
     if (categoriaMoto.equals("scooters")) {
@@ -144,6 +146,8 @@ public class Aluguel {
         this.valorDiaria = 340;
     } else if (categoriaMoto.equals("off-road")) {
         this.valorDiaria = 290;
+    }else{
+        this.valorDiaria = 100;
     }
     }
     

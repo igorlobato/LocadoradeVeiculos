@@ -52,7 +52,6 @@ public class LocadoraFacade{
 
   public Veiculo verificarDisponibilidade(String placa) throws VeiculoNaoCadastradoException {
         return repositorioVeiculo.verificarDisponibilidade(placa);
-        //Trocar modelo por placa no Lista
   }
 
   public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException  {

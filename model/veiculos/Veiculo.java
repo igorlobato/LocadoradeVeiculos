@@ -9,6 +9,7 @@ public abstract class Veiculo {
     protected int anodefabricao;
     protected double quilometragem;
     protected String categoria;
+    protected boolean alugado;
 
     public Veiculo(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
             String categoria) {
@@ -19,6 +20,7 @@ public abstract class Veiculo {
         this.anodefabricao = anodefabricao;
         this.quilometragem = quilometragem;
         this.categoria = categoria;
+        this.alugado = false;
     }
 
     public double getQuilometragem() {
@@ -77,11 +79,19 @@ public abstract class Veiculo {
         this.anodefabricao = anodefabricao;
     }
 
+    public boolean isAlugado() {
+        return alugado;
+    }
+
+    public void setAlugado(boolean alugado) {
+        this.alugado = alugado;
+    }
+    
 
     @Override
     public String toString() {
         return "Veiculo{" + "modelo=" + modelo + ", marca=" + marca + ", placa=" + placa + ", cor=" + cor + ", anodefabricao=" 
-                + anodefabricao + ", Quilometragem=" + quilometragem + ", Categoria=" + categoria + +'}';
+                + anodefabricao + ", Quilometragem=" + quilometragem + ", Categoria=" + categoria + ", Alugado=" + alugado +'}';
     }
     
     

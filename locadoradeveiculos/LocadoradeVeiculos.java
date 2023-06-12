@@ -388,6 +388,7 @@ public class LocadoradeVeiculos {
                             System.out.println("Tipo de Combustível: " + carroDetalhes.getTipodecombustivel());
                             System.out.println("Capacidade do Porta-malas: " + carroDetalhes.getCapacidadedoportamalas());
                         }
+                        System.out.println("Esta alugado: " + carro.isAlugado());
                         System.out.println();
 		} catch (VeiculoNaoCadastradoException ex) {
 			System.err.println(ex.getMessage());
@@ -563,6 +564,7 @@ public class LocadoradeVeiculos {
                             System.out.println("Cilindrada: " + motoDetalhes.getCilindrada());
                             System.out.println("Tipo de Motor: " + motoDetalhes.getTipodemotor());
                         }
+                        System.out.println("Esta alugado: " + moto.isAlugado());
 
 		} catch (VeiculoNaoCadastradoException ex) {
 			System.err.println(ex.getMessage());

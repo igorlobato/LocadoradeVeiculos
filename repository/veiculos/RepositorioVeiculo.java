@@ -10,9 +10,9 @@ public interface RepositorioVeiculo {
 
     void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException;
 
-    Veiculo verificarDisponibilidade(String modelo) throws VeiculoNaoCadastradoException;
+    Veiculo verificarDisponibilidade(String placa) throws VeiculoNaoCadastradoException;
 
     List<Veiculo> getAll();
     
-    List<Veiculo> getAll(String modelo);
+    List<Veiculo> getAll(String placa);
 }

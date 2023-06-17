@@ -1,7 +1,12 @@
 package Facade;
 import java.util.List;
 import model.cliente.Cliente;
+import model.veiculos.Categoria;
 import model.veiculos.Veiculo;
+import repository.categoria.CategoriaJaCadastradaException;
+import repository.categoria.CategoriaNaoCadastradaException;
+import repository.categoria.RepositorioCategoria;
+import repository.categoria.RepositorioCategoriaLista;
 import repository.cliente.CPFJaCadastradoException;
 import repository.cliente.ClienteNaoCadastradoException;
 import repository.cliente.RepositorioCliente;
@@ -14,10 +19,12 @@ import repository.veiculos.VeiculoNaoCadastradoException;
 public class LocadoraFacade{
   private RepositorioCliente repositorioCliente;
   private RepositorioVeiculo repositorioVeiculo;
+  private RepositorioCategoria repositorioCategoria;
 
   public LocadoraFacade() {
     repositorioCliente = new RepositorioClienteLista();
     repositorioVeiculo = new RepositorioVeiculoLista();
+    repositorioCategoria = new RepositorioCategoriaLista();
   }  
 
   public void inserirCliente(Cliente cliente) throws CPFJaCadastradoException {
@@ -52,7 +59,6 @@ public class LocadoraFacade{
 
   public Veiculo verificarDisponibilidade(String placa) throws VeiculoNaoCadastradoException {
         return repositorioVeiculo.verificarDisponibilidade(placa);
-        //Trocar modelo por placa no Lista
   }
 
   public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException  {
@@ -96,4 +102,30 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
 
   public void exit() {
   }
+  
+    public Categoria cadastrarCategoria(Categoria categoria) throws CategoriaJaCadastradaException {
+    repositorioCategoria.cadastrarCategoria(categoria);
+    return categoria;
+  }
+
+  public Categoria verificarDescricao(String categoria) throws CategoriaNaoCadastradaException {
+        return repositorioCategoria.verificarDescricao(categoria);
+  }
+  
+  public void alterarVeiculo(Categoria categoria) throws CategoriaNaoCadastradaException  {
+      repositorioCategoria.alterarCategoria(categoria);
+  }
+    
+  public void deletarVeiculo(Categoria categoria) throws CategoriaNaoCadastradaException, LocadoraException {
+      repositorioCategoria.deletarCategoria(categoria);
+  }
+  
+  public List<Categoria> getAllCategorias() {
+    return repositorioCategoria.getAll();
+  }
+
+  public List<Categoria> getAllCategorias(String para) {
+    return repositorioCategoria.getAll(para);
+  }
+  
 }

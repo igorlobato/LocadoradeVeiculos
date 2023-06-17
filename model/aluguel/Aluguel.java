@@ -3,8 +3,8 @@ package model.aluguel;
 import model.veiculos.Carro;
 import model.veiculos.Moto;
 import model.veiculos.Veiculo;
-import Facade.LocadoraFacade;
 import java.util.List;
+import model.cliente.Cliente;
 
 public class Aluguel {
     private Carro carro;
@@ -14,6 +14,9 @@ public class Aluguel {
     private int quantidadeDiarias;
     private int diascomVeiculo;
     private double valorDiaria;
+    private Cliente cliente;
+    
+    
     
     private List<Veiculo> listaVeiculos; 
 
@@ -84,10 +87,6 @@ public class Aluguel {
     
     
     
-    //public void alugarCarro(carro.getModelo(), carro.getCor(), carro.getAnodefabricacao()){
-        
-    //}
-    
 
     public void verificarDisponibilidade(String modelo){
             boolean disponivel = true;
@@ -107,7 +106,7 @@ public class Aluguel {
     }
     
     public void ControlheAluguel(String modelo){
-        
+        //mostrar os veiculos alugarodos e o status do aluguel data etc.
     }
     
     public void valorPagar(){
@@ -128,6 +127,8 @@ public class Aluguel {
         this.valorDiaria = 340;
     } else if (categoriaCarro.equals("mpv")) {
         this.valorDiaria = 390;
+    }else{
+        this.valorDiaria = 100;
     }
 
     if (categoriaMoto.equals("scooters")) {
@@ -144,6 +145,8 @@ public class Aluguel {
         this.valorDiaria = 340;
     } else if (categoriaMoto.equals("off-road")) {
         this.valorDiaria = 290;
+    }else{
+        this.valorDiaria = 100;
     }
     }
     

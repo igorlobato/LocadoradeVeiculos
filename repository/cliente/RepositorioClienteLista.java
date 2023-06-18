@@ -35,14 +35,12 @@ public class RepositorioClienteLista implements RepositorioCliente{
 
   @Override
   public Cliente buscarCliente(String cpf) throws ClienteNaoCadastradoException {
-
     for (Cliente cliente : clientes) {
       if (cliente.getCpf().equals(cpf)) {
         return cliente;
       }
     }
     throw new ClienteNaoCadastradoException();
-
   }
 
   @Override

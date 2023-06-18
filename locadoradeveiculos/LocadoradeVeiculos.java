@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 import model.cliente.Cliente;
 import model.veiculos.Carro;
+import model.veiculos.Categoria;
 import model.veiculos.Moto;
 import model.veiculos.Veiculo;
+import repository.categoria.CategoriaJaCadastradaException;
+import repository.categoria.CategoriaNaoCadastradaException;
 import repository.cliente.ClienteNaoCadastradoException;
 import repository.cliente.CPFJaCadastradoException;
 import repository.veiculos.VeiculoJaCadastradoException;
@@ -15,9 +18,6 @@ import repository.veiculos.VeiculoNaoCadastradoException;
 import repository1.RepositoryException;
 
 public class LocadoradeVeiculos {
-    /*
-    private static RepositorioCliente repClientes = new RepositorioClienteLista();
-    private static RepositorioVeiculo repVeiculos = new RepositorioVeiculoLista();*/
     
     static LocadoraFacade facade = new LocadoraFacade();
 	static Scanner scanner = new Scanner(System.in);
@@ -34,8 +34,8 @@ public class LocadoradeVeiculos {
 			System.out.println("==== =========");
 			System.out.println();
 			System.out.println("<1> Cadastro Clientes");
-			System.out.println("<2> Cadastro Carros");
-                        System.out.println("<3> Cadastro Motos");
+			System.out.println("<2> Cadastro Veiculos");
+                        System.out.println("<3> Cadastro Categorias");
 			System.out.println("<4> Aluguel");
 			System.out.println("<0> Sair");
 			System.out.println();
@@ -55,10 +55,10 @@ public class LocadoradeVeiculos {
 				cadastroClientes();
 				break;
 			case 2:
-				cadastroCarros();
+				cadastroVeiculos();
 				break;
                         case 3:
-				cadastroMotos();
+				cadastroCategoria();
 				break;
 			case 4:
 				aluguel();
@@ -153,28 +153,28 @@ public class LocadoradeVeiculos {
 	}
 
 	private static void listarCliente() {
-    limpaTela();
-    List<Cliente> clientes = facade.getAllClientes();
-    System.out.println("CLIENTES CADASTRADOS");
-    System.out.println("=============================================================================");
-    System.out.printf("%-14s %-20s %-4s %-15s %-20s\n",
-            "CPF", "Nome", "Sexo", "Telefone", "Data de Nascimento");
+            limpaTela();
+            List<Cliente> clientes = facade.getAllClientes();
+            System.out.println("CLIENTES CADASTRADOS");
+            System.out.println("=============================================================================");
+            System.out.printf("%-14s %-20s %-4s %-15s %-20s\n",
+                    "CPF", "Nome", "Sexo", "Telefone", "Data de Nascimento");
 
-    for (Cliente cliente : clientes) {
-        System.out.printf("%-14s %-20s %-4s %-15s %-20s\n",
-                cliente.getCpf(), cliente.getNome(), cliente.getSexo(), cliente.getTelefone(), cliente.getAnocnh());
-    }
+            for (Cliente cliente : clientes) {
+                System.out.printf("%-14s %-20s %-4s %-15s %-20s\n",
+                        cliente.getCpf(), cliente.getNome(), cliente.getSexo(), cliente.getTelefone(), cliente.getAnocnh());
+            }
 
-    System.out.println("=============================================================================");
-    System.out.println();
-    System.out.println("Pressione <enter> para voltar");
-    scanner.nextLine();
-}
+            System.out.println("=============================================================================");
+            System.out.println();
+            System.out.println("Pressione <enter> para voltar");
+            scanner.nextLine();
+        }
 
 
 	private static void excluirCliente() {
 		limpaTela();
-		System.out.println("Excluir de Cliente");
+		System.out.println("Excluir Clientes");
 		System.out.println("==================");
 		System.out.print("CPF: ");
 		String cpf = scanner.nextLine();
@@ -187,7 +187,7 @@ public class LocadoradeVeiculos {
 			System.out.println("Telefone: " + cliente.getTelefone());
 			System.out.println();
 
-			System.out.print("Exclui esse cliente? (s/n)?");
+			System.out.print("Excluir esse cliente? (s/n)?");
 			String resposta = scanner.nextLine();
 
 			if (resposta.equalsIgnoreCase("s")) {
@@ -206,7 +206,7 @@ public class LocadoradeVeiculos {
 
 	private static void alterarCliente() {
 		limpaTela();
-		System.out.println("Alterar de Cliente");
+		System.out.println("Alterar Cliente");
 		System.out.println("==================");
 		System.out.print("CPF: ");
 		String cpf = scanner.nextLine();
@@ -250,6 +250,43 @@ public class LocadoradeVeiculos {
 		System.out.println("tecle <enter> para voltar");
 		scanner.nextLine();
 	}
+        
+        
+        private static void cadastroVeiculos(){
+            int opcao;
+		do {
+			limpaTela();
+			System.out.println("CADASTRO VEICULOS");
+			System.out.println("======== ========");
+			System.out.println();
+			System.out.println("<1> Cadastro Carros");
+			System.out.println("<2> Cadastro Motos");
+			System.out.println("<0> Menu Principal");
+			System.out.println();
+			System.out.print("Escolha uma opção: ");
+
+			try {
+				opcao = Integer.valueOf(scanner.nextLine());
+			} catch (Exception e) {
+				opcao = 0;
+			}
+
+			switch (opcao) {
+			case 0:
+				limpaTela();
+				break;
+			case 1:
+				cadastroCarros();
+				break;
+			case 2:
+				cadastroMotos();
+				break;
+			}
+		} while (opcao != 0);
+        }
+        
+        
+        
 
 	private static void cadastroCarros() {
 		int opcao;
@@ -602,6 +639,187 @@ public class LocadoradeVeiculos {
     scanner.nextLine();
 }
 
+        private static void cadastroCategoria() {
+		int opcao;
+		do {
+			limpaTela();
+			System.out.println("CADASTRO CATEGORIAS");
+			System.out.println("======== ========");
+			System.out.println();
+			System.out.println("<1> Cadastrar Categoria");
+			System.out.println("<2> Alterar Categoria");
+			System.out.println("<3> Excluir Categoria");
+			System.out.println("<4> Listar Categorias");
+			System.out.println("<0> Menu Principal");
+			System.out.println();
+			System.out.print("Escolha uma opção: ");
+
+			try {
+				opcao = Integer.valueOf(scanner.nextLine());
+			} catch (Exception e) {
+				opcao = 0;
+			}
+
+			switch (opcao) {
+			case 0:
+				limpaTela();
+				break;
+			case 1:
+				cadastrarCategoria();
+				break;
+			case 2:
+				alterarCategoria();
+				break;
+			case 3:
+				excluirCategoria();
+				break;
+			case 4:
+				listarCategorias();
+				break;
+			}
+		} while (opcao != 0);
+	}
+
+        private static void cadastrarCategoria() {
+		limpaTela();
+		System.out.println("Cadastro de Categoria");
+		System.out.println("===================");
+		System.out.print("Categoria: ");
+		String categorian = scanner.next();
+		System.out.print("Descricao: ");
+		String descricao = scanner.next();
+                System.out.print("Valor da diaria: ");
+		Double valorDiaria = scanner.nextDouble();
+                System.out.print("Para (Carros ou Motos): ");
+		String para = scanner.next();
+                
+
+		Categoria categoria = new Categoria(categorian, descricao, valorDiaria, para);
+
+		try {
+			facade.cadastrarCategoria(categoria);
+			System.out.println("Categoria Cadastrada!");
+		} catch (CategoriaJaCadastradaException ex) {
+			System.err.println(ex.getMessage());
+		}
+
+		System.out.println("tecle <enter> para voltar");
+		scanner.nextLine();
+		scanner.nextLine();
+	}
+
+	private static void listarCategorias() {
+            limpaTela();
+            List<Categoria> categorias = facade.getAllCategorias();
+            System.out.println("CATEGORIAS CADASTRADAS");
+            System.out.println("=============================================================================");
+            System.out.printf("%-20s %-80s %-20s %-15s\n",
+                    "Categoria", "Descricao", "Valor da diaria", "Para");
+
+            for (Categoria categoria : categorias) {
+                String valorDiariaFormatado = String.format("R$ %.2f", categoria.getValorDiaria());
+                System.out.printf("%-20s %-80s %-20s %-15s\n",
+                        categoria.getCategoria(), categoria.getDescricao(), valorDiariaFormatado, categoria.getPara());
+            }
+
+            System.out.println("=============================================================================");
+            System.out.println();
+            System.out.println("Pressione <enter> para voltar");
+            scanner.nextLine();
+        }
+
+
+
+	private static void excluirCategoria() {
+		limpaTela();
+		System.out.println("Excluir Categoria");
+		System.out.println("==================");
+		System.out.print("Categoria: ");
+		String categorian = scanner.nextLine();
+
+		try {
+			Categoria categoria = facade.verificarDescricao(categorian);
+			System.out.println();
+			System.out.println("Categoria: " + categoria.getCategoria());
+			System.out.println("Descricao: " + categoria.getDescricao());
+			System.out.println("Valor Diaria: " + categoria.getValorDiaria());
+                        System.out.println("Para: " + categoria.getPara());
+			System.out.println();
+
+			System.out.print("Excluir essa categoria? (s/n)?");
+			String resposta = scanner.nextLine();
+
+			if (resposta.equalsIgnoreCase("s")) {
+				facade.deletarCategoria(categoria);
+				System.out.println("Categoria excluída!");
+			}
+
+		} catch (CategoriaNaoCadastradaException | LocadoraException ex) {
+			System.err.println(ex.getMessage());
+		}
+
+		System.out.println();
+		System.out.println("tecle <enter> para voltar");
+		scanner.nextLine();
+	}
+
+	private static void alterarCategoria() {
+		limpaTela();
+		System.out.println("Alterar Categoria");
+		System.out.println("==================");
+		System.out.print("Categoria: ");
+		String categorian = scanner.nextLine();
+
+		try {
+			Categoria categoria = facade.verificarDescricao(categorian);
+
+			System.out.println();
+			System.out.println("Categoria: " + categoria.getCategoria());
+			System.out.print("Categoria (<enter> = Não alterar): ");
+			String categorianova = scanner.nextLine();
+			if (!categorianova.equals("")) {
+				categoria.setCategoria(categorianova);
+			}
+
+			System.out.println("Descricao: " + categoria.getDescricao());
+			System.out.print("Descricao (<enter> = Não alterar): ");
+			String descricao = scanner.nextLine();
+			if (!descricao.equals("")) {
+				categoria.setDescricao(descricao);
+			}
+
+			System.out.println("Valor da Diaria: " + categoria.getValorDiaria());
+			System.out.print("Valor da Diaria (<enter> = Não alterar): ");
+			String novovalor = scanner.nextLine();
+
+                        if (!novovalor.isEmpty()) {
+                            double novoValor = Double.parseDouble(novovalor);
+                            categoria.setValorDiaria(novoValor);
+                        }
+                        
+                        System.out.println("Veiculo: " + categoria.getPara());
+			System.out.print("Veiculo (<enter> = Não alterar): ");
+			String vei = scanner.nextLine();
+
+                        if (!vei.equals("")) {
+				categoria.setPara(vei);
+			}
+
+			System.out.println();
+
+			facade.alterarCategoria(categoria);
+			System.out.println("Categoria Alterada!");
+			System.out.println();
+
+		} catch (CategoriaNaoCadastradaException ex) {
+			System.err.println(ex.getMessage());
+		}
+
+		System.out.println();
+		System.out.println("tecle <enter> para voltar");
+		scanner.nextLine();
+	}
+        
         
         private static void aluguel() {
 		int opcao;
@@ -670,11 +888,49 @@ public class LocadoradeVeiculos {
             facade.cadastrarVeiculo(new Carro("Fusca", "Volkswagen", "JDK-1234", "Branco", 1987,
             450.5, "A", 2, "Gasolina", 310));
             
+            facade.cadastrarCategoria(new Categoria("A", "Subcompacto/Mini", 150, "Carro"));
+            
+            facade.cadastrarCategoria(new Categoria("B", "Compacto", 195, "Carro"));
+            
+            facade.cadastrarCategoria(new Categoria("C", "Médio", 240, "Carro"));
+            
+            facade.cadastrarCategoria(new Categoria("D", "Grande/Familiar", 290, "Carro"));
+            
+            facade.cadastrarCategoria(new Categoria("E", "Luxo/Executivo", 530, "Carro"));
+            
+            facade.cadastrarCategoria(new Categoria("SUV", "Utilitário Esportivo", 340, "Carro"));
+            
+            facade.cadastrarCategoria(new Categoria("MPV", "Minivan/Van", 390, "Carro"));
+            
+            
+            
+            facade.cadastrarCategoria(new Categoria("Scooters", "Motos com estrutura de plataforma plana e transmissão automática.",
+                    140, "Moto"));
+            
+            facade.cadastrarCategoria(new Categoria("Naked", "Motos sem carenagem, exibindo o motor e outras partes mecânicas.",
+                    190, "Moto"));
+            
+            facade.cadastrarCategoria(new Categoria("Esportivas", "Motos sem carenagem, exibindo o motor e outras partes mecânicas.",
+                    290, "Moto"));
+            
+            facade.cadastrarCategoria(new Categoria("Touring", "Motos projetadas para viagens de longa distância e conforto.",
+                    390, "Moto"));
+            
+            facade.cadastrarCategoria(new Categoria("Crossovers/Adventure", "Motos versáteis para uso tanto em estradas asfaltadas quanto fora de estrada.",
+                    440, "Moto"));
+            
+            facade.cadastrarCategoria(new Categoria("Cruisers", "Motos com estilo retrô e foco no conforto em viagens longas.",
+                    340, "Moto"));
+            
+            facade.cadastrarCategoria(new Categoria("Off-Road", "MMotos projetadas para trilhas e uso fora de estrada.",
+                    290, "Moto"));
+            
         } catch (CPFJaCadastradoException e1) {
             System.out.println(e1.getMessage());
         } catch (VeiculoJaCadastradoException e2) {
             System.out.println(e2.getMessage());
+        } catch (CategoriaJaCadastradaException e2) {
+            System.out.println(e2.getMessage());
         }
 }
 }
-

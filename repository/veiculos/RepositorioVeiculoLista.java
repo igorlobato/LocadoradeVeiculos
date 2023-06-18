@@ -24,7 +24,6 @@ public class RepositorioVeiculoLista implements RepositorioVeiculo{
     @Override
     public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException {
         verificarDisponibilidade(veiculo.getModelo());
-    //verificar depois se dá para alterar por placa
     }
 
     @Override

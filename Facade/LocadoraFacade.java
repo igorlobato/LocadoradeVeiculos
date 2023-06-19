@@ -1,8 +1,12 @@
 package Facade;
 import java.util.List;
+import model.aluguel.Aluguel;
 import model.cliente.Cliente;
 import model.veiculos.Categoria;
 import model.veiculos.Veiculo;
+import repository.aluguel.AluguelJaCadastradoException;
+import repository.aluguel.AluguelNaoCadastradoException;
+import repository.aluguel.RepositorioAluguel;
 import repository.categoria.CategoriaJaCadastradaException;
 import repository.categoria.CategoriaNaoCadastradaException;
 import repository.categoria.RepositorioCategoria;
@@ -20,6 +24,7 @@ public class LocadoraFacade{
   private RepositorioCliente repositorioCliente;
   private RepositorioVeiculo repositorioVeiculo;
   private RepositorioCategoria repositorioCategoria;
+  private RepositorioAluguel repositorioAluguel;
 
   public LocadoraFacade() {
     repositorioCliente = new RepositorioClienteLista();
@@ -126,6 +131,31 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
 
   public List<Categoria> getAllCategorias(String para) {
     return repositorioCategoria.getAll(para);
+  }
+  
+  public Aluguel novoAluguel(Aluguel aluguel) throws AluguelJaCadastradoException {
+    repositorioAluguel.novoAluguel(aluguel);
+    return aluguel;
+  }
+
+  public Aluguel verificarAluguel(String aluguel) throws AluguelNaoCadastradoException {
+        return repositorioAluguel.verificarAluguel(aluguel);
+  }
+  
+  public void alterarAluguel(Categoria categoria) throws AluguelNaoCadastradoException  {
+      //repositorioCategoria.alterarCategoria(categoria);
+  }
+    
+  public void cancelarAluguel(Categoria categoria) throws AluguelNaoCadastradoException, LocadoraException {
+      //repositorioCategoria.deletarCategoria(categoria);
+  }
+  
+  public List<Aluguel> getAllAlugueis() {
+    return repositorioAluguel.getAll();
+  }
+
+  public List<Aluguel> getAllAlugueis(String categoria) {
+    return repositorioAluguel.getAll(categoria);
   }
   
 }

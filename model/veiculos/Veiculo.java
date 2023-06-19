@@ -10,6 +10,7 @@ public abstract class Veiculo {
     protected double quilometragem;
     protected String categoria;
     protected boolean alugado;
+    protected Categoria valorDiaria;
 
     public Veiculo(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
             String categoria) {

@@ -8,7 +8,7 @@ public class Carro extends Veiculo{
     private int capacidadedoportamalas;
 
     public Carro(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
-            String categoria, int numerodeportas,
+            Categoria categoria, int numerodeportas,
             String tipodecombustivel, int capacidadedoportamalas) {
         super(modelo, marca, placa, cor, anodefabricao, quilometragem, categoria);
         this.numerodeportas = numerodeportas;

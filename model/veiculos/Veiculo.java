@@ -8,11 +8,12 @@ public abstract class Veiculo {
     protected String cor;
     protected int anodefabricao;
     protected double quilometragem;
-    protected String categoria;
+    protected Categoria categoria;
     protected boolean alugado;
 
+
     public Veiculo(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
-            String categoria) {
+            Categoria categoria) {
         this.modelo = modelo;
         this.marca = marca;
         this.placa = placa;
@@ -31,11 +32,11 @@ public abstract class Veiculo {
         this.quilometragem = quilometragem;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 

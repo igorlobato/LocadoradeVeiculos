@@ -1,5 +1,8 @@
 package repository.veiculos;
-public class VeiculoNaoCadastradoException extends Exception{
+
+import repository1.RepositoryException;
+
+public class VeiculoNaoCadastradoException extends RepositoryException{
     public VeiculoNaoCadastradoException() {
         super("Veículo não cadastrado");
     }

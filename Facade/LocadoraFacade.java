@@ -1,8 +1,18 @@
 package Facade;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
+import model.aluguel.Aluguel;
 import model.cliente.Cliente;
 import model.veiculos.Categoria;
 import model.veiculos.Veiculo;
+import repository.aluguel.AluguelJaCadastradoException;
+import repository.aluguel.AluguelNaoCadastradoException;
+import repository.aluguel.RepositorioAluguel;
 import repository.categoria.CategoriaJaCadastradaException;
 import repository.categoria.CategoriaNaoCadastradaException;
 import repository.categoria.RepositorioCategoria;
@@ -17,15 +27,25 @@ import repository.veiculos.VeiculoJaCadastradoException;
 import repository.veiculos.VeiculoNaoCadastradoException;
 
 public class LocadoraFacade{
+    
+  private final File file = new File("locadora.dat");  
+    
   private RepositorioCliente repositorioCliente;
   private RepositorioVeiculo repositorioVeiculo;
   private RepositorioCategoria repositorioCategoria;
-
+  private RepositorioAluguel repositorioAluguel;
+  
+  private static LocadoraFacade instance = null;
+  
   public LocadoraFacade() {
-    repositorioCliente = new RepositorioClienteLista();
-    repositorioVeiculo = new RepositorioVeiculoLista();
-    repositorioCategoria = new RepositorioCategoriaLista();
-  }  
+		if (file.exists()) {
+			loadData();
+		} else {
+			repositorioCliente = new RepositorioClienteLista();
+                        repositorioVeiculo = new RepositorioVeiculoLista();
+                        repositorioCategoria = new RepositorioCategoriaLista();
+		}
+	}
 
   public void inserirCliente(Cliente cliente) throws CPFJaCadastradoException {
       repositorioCliente.inserirCliente(cliente);
@@ -99,9 +119,6 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
   public List<Veiculo> getAllVeiculos(String modelo) {
     return repositorioVeiculo.getAll(modelo);
   }
-
-  public void exit() {
-  }
   
     public Categoria cadastrarCategoria(Categoria categoria) throws CategoriaJaCadastradaException {
     repositorioCategoria.cadastrarCategoria(categoria);
@@ -112,11 +129,11 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
         return repositorioCategoria.verificarDescricao(categoria);
   }
   
-  public void alterarVeiculo(Categoria categoria) throws CategoriaNaoCadastradaException  {
+  public void alterarCategoria(Categoria categoria) throws CategoriaNaoCadastradaException  {
       repositorioCategoria.alterarCategoria(categoria);
   }
     
-  public void deletarVeiculo(Categoria categoria) throws CategoriaNaoCadastradaException, LocadoraException {
+  public void deletarCategoria(Categoria categoria) throws CategoriaNaoCadastradaException, LocadoraException {
       repositorioCategoria.deletarCategoria(categoria);
   }
   
@@ -128,4 +145,67 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
     return repositorioCategoria.getAll(para);
   }
   
+  public Aluguel novoAluguel(Aluguel aluguel) throws AluguelJaCadastradoException {
+    repositorioAluguel.novoAluguel(aluguel);
+    return aluguel;
+  }
+
+  public Aluguel verificarAluguel(String aluguel) throws AluguelNaoCadastradoException {
+        return repositorioAluguel.verificarAluguel(aluguel);
+  }
+  
+  public void alterarAluguel(Categoria categoria) throws AluguelNaoCadastradoException  {
+      //repositorioCategoria.alterarCategoria(categoria);
+  }
+    
+  public void cancelarAluguel(Categoria categoria) throws AluguelNaoCadastradoException, LocadoraException {
+      //repositorioCategoria.deletarCategoria(categoria);
+  }
+  
+  public List<Aluguel> getAllAlugueis() {
+    return repositorioAluguel.getAll();
+  }
+
+  public List<Aluguel> getAllAlugueis(String categoria) {
+    return repositorioAluguel.getAll(categoria);
+  }
+  
+  private void loadData() {
+		try {
+			FileInputStream f = new FileInputStream(file);
+				ObjectInputStream o = new ObjectInputStream(f);
+
+			repositorioCliente = (RepositorioCliente) o.readObject();
+			repositorioVeiculo = (RepositorioVeiculo) o.readObject();
+                        repositorioCategoria = (RepositorioCategoria) o.readObject();
+                        repositorioAluguel = (RepositorioAluguel) o.readObject();
+
+			o.close();
+			f.close();
+		} catch (ClassNotFoundException e) {
+			System.err.println("Definição da classe não encontrada");
+		} catch (IOException e) {
+			System.err.println("Erro ao carregar dados do arquivo");
+		}
+	}
+
+	public void exit() {
+		try {
+			FileOutputStream f = new FileOutputStream(file);
+			ObjectOutputStream o = new ObjectOutputStream(f);
+
+			
+			o.writeObject(repositorioCliente);
+			o.writeObject(repositorioVeiculo);
+                        o.writeObject(repositorioCategoria);
+                        o.writeObject(repositorioAluguel);
+                        
+			o.close();
+			f.close();
+		} catch (IOException e) {
+			System.err.println("Erro de serialização de objeto");
+			e.printStackTrace();
+		}
+  
+}
 }

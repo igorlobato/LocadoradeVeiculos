@@ -1,5 +1,8 @@
 package repository.cliente;
-public class CPFJaCadastradoException extends Exception {
+
+import repository1.RepositoryException;
+
+public class CPFJaCadastradoException extends RepositoryException {
 
     public CPFJaCadastradoException() {
         super("CPF já cadastrado");

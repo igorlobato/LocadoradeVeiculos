@@ -35,9 +35,9 @@ public class RepositorioCategoriaLista implements RepositorioCategoria{
     }
 
     @Override
-    public Categoria verificarDescricao(String Categoria) throws CategoriaNaoCadastradaException {
+    public Categoria verificarDescricao(String categorian) throws CategoriaNaoCadastradaException {
         for (Categoria categoria : categorias) {
-          if (categoria.getCategoria().equals(Categoria)) {
+          if (categoria.getCategoria().equals(categorian)) {
             return categoria;
           }
         }

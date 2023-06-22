@@ -1,22 +1,27 @@
 package model.aluguel;
 
-import model.veiculos.Carro;
-import model.veiculos.Moto;
 import model.veiculos.Veiculo;
 import java.util.List;
 import model.cliente.Cliente;
+import model.veiculos.Categoria;
 
 public class Aluguel {
-    private Carro carro;
-    private Moto moto;
+    private Veiculo veiculo;
     private String dataSaida;
     private String dataDevolucao;
     private int quantidadeDiarias;
     private int diascomVeiculo;
-    private double valorDiaria;
+    private Categoria categoria;
     private Cliente cliente;
-    
-    
+
+    public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, int quantidadeDiarias, Categoria categoria, Cliente cliente) {
+        this.veiculo = veiculo;
+        this.dataSaida = dataSaida;
+        this.dataDevolucao = dataDevolucao;
+        this.quantidadeDiarias = quantidadeDiarias;
+        this.categoria = categoria;
+        this.cliente = cliente;
+    }
     
     private List<Veiculo> listaVeiculos; 
 
@@ -28,22 +33,14 @@ public class Aluguel {
         this.listaVeiculos = listaVeiculos;
     }
 
-    public Carro getCarro() {
-        return carro;
+    public Veiculo getVeiculo() {
+        return veiculo;
     }
 
-    public void setCarro(Carro carro) {
-        this.carro = carro;
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
     }
 
-    public Moto getMoto() {
-        return moto;
-    }
-
-    public void setMoto(Moto moto) {
-        this.moto = moto;
-    }
-    
     public String getDataSaida() {
         return dataSaida;
     }
@@ -76,18 +73,22 @@ public class Aluguel {
         this.diascomVeiculo = diascomVeiculo;
     }
     
-    public double getValorDiaria() {
-        return valorDiaria;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setValorDiaria(double valorDiaria) {
-        this.valorDiaria = valorDiaria;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
     
-    
-    
-    
-
     public void verificarDisponibilidade(String modelo){
             boolean disponivel = true;
 
@@ -110,54 +111,17 @@ public class Aluguel {
     }
     
     public void valorPagar(){
-    String categoriaCarro = carro.getCategoria().toLowerCase();
-    String categoriaMoto = moto.getCategoria().toLowerCase();
-
-    if (categoriaCarro.equals("a")) {
-        this.valorDiaria = 150;
-    } else if (categoriaCarro.equals("b")) {
-        this.valorDiaria = 195;
-    } else if (categoriaCarro.equals("c")) {
-        this.valorDiaria = 240;
-    } else if (categoriaCarro.equals("d")) {
-        this.valorDiaria = 290;
-    } else if (categoriaCarro.equals("e")) {
-        this.valorDiaria = 530;
-    } else if (categoriaCarro.equals("suv")) {
-        this.valorDiaria = 340;
-    } else if (categoriaCarro.equals("mpv")) {
-        this.valorDiaria = 390;
-    }else{
-        this.valorDiaria = 100;
-    }
-
-    if (categoriaMoto.equals("scooters")) {
-        this.valorDiaria = 140;
-    } else if (categoriaMoto.equals("naked")) {
-        this.valorDiaria = 190;
-    } else if (categoriaMoto.equals("esportivas")) {
-        this.valorDiaria = 290;
-    } else if (categoriaMoto.equals("touring")) {
-        this.valorDiaria = 390;
-    } else if (categoriaMoto.equals("adventure")) {
-        this.valorDiaria = 440;
-    } else if (categoriaMoto.equals("cruisers")) {
-        this.valorDiaria = 340;
-    } else if (categoriaMoto.equals("off-road")) {
-        this.valorDiaria = 290;
-    }else{
-        this.valorDiaria = 100;
-    }
+    
     }
     
     public void MultaAtraso(){
         
-        double diasAtrasados = (this.diascomVeiculo - this.quantidadeDiarias);
+       /* double diasAtrasados = (this.diascomVeiculo - this.quantidadeDiarias);
         double multa;
         
         if (diasAtrasados > 0){
-            multa = (diasAtrasados * 250) + (diasAtrasados * this.valorDiaria);
-            System.out.println("Você atrasou a devolução! Você deve pagar " + multa + "R$ de multa");
+            multa = (diasAtrasados * 250) + (diasAtrasados * this.valorDiaria.getValorDiatia);
+            System.out.println("Você atrasou a devolução! Você deve pagar " + multa + "R$ de multa");*/
         }
     }
-}
+

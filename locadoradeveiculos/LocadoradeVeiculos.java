@@ -18,16 +18,15 @@ import repository.veiculos.VeiculoJaCadastradoException;
 import repository.veiculos.VeiculoNaoCadastradoException;
 import repository1.RepositoryException;
 
-public class LocadoradeVeiculos {
+class LocadoradeVeiculos {
     
-    static LocadoraFacade facade = new LocadoraFacade();
-	static Scanner scanner = new Scanner(System.in);
+    private static LocadoraFacade facade;
+    private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        System.out.println("Carregando o sistema aguade um momento...");
         facade = new LocadoraFacade();
     
-        CriaDadosDeTeste();
-
 		int opcao;
 		do {
 			limpaTela();
@@ -347,7 +346,13 @@ public class LocadoradeVeiculos {
                 System.out.print("Quilometragem: ");
                 double quilometragem = scanner.nextDouble();
                 System.out.print("Categoria: ");
-                String categoria = scanner.next();
+                String categoriaNome = scanner.next();
+                Categoria categoria = null;
+                try {
+                    categoria = facade.verificarDescricao(categoriaNome);
+                } catch (CategoriaNaoCadastradaException ex) {
+                    System.err.println(ex.getMessage());
+                }
                 System.out.print("Numero de portas: ");
                 int nportas = scanner.nextInt();
                 System.out.print("Tipo de Combustivel: ");
@@ -523,15 +528,18 @@ public class LocadoradeVeiculos {
                 System.out.print("Quilometragem: ");
                 double quilometragem = scanner.nextDouble();
                 System.out.print("Categoria: ");
-                String categoria = scanner.next();
+                String categoriaNome = scanner.next();
+                Categoria categoria = null;
+                try {
+                    categoria = facade.verificarDescricao(categoriaNome);
+                } catch (CategoriaNaoCadastradaException ex) {
+                    System.err.println(ex.getMessage());
+                }
                 System.out.print("Cilindrada: ");
                 int cilindrada = scanner.nextInt();
                 System.out.print("Tipo de Motor: ");
                 String tMotor = scanner.next();
                 
-                Veiculo titular = null;
-
-               
                 Moto moto = new Moto(modelo, marca, placa, cor, adf, quilometragem, categoria, cilindrada, tMotor);
 
                 try {
@@ -1043,17 +1051,17 @@ public class LocadoradeVeiculos {
             
             
             facade.cadastrarVeiculo(new Moto("CG 160 Titan", "Honda", "OSA-6549", "Vermelho", 2021,
-            102.7, "city", 162, "Monocilindrico"));
+            102.7, facade.verificarDescricao("Naked"), 162, "Monocilindrico"));
             
             facade.cadastrarVeiculo(new Moto("S1000RR", "BMW", "ZZZ-6899", "Cinza", 2023,
-            32.5, "esportivas", 999, "Tetracilindrico"));
+            32.5, facade.verificarDescricao("Touring"), 999, "Tetracilindrico"));
             
             
             facade.cadastrarVeiculo(new Carro("Mobi", "Fiat", "ASO-6549", "Preto", 2020,
-            55.5, "A", 4, "Gasolina", 5));
+            55.5, facade.verificarDescricao("B"), 4, "Gasolina", 5));
             
             facade.cadastrarVeiculo(new Carro("Fusca", "Volkswagen", "JDK-1234", "Branco", 1987,
-            450.5, "A", 2, "Gasolina", 310));
+            450.5, facade.verificarDescricao("E"), 2, "Gasolina", 310));
             
             facade.cadastrarCategoria(new Categoria("A", "Subcompacto/Mini", 150, "Carro"));
             
@@ -1098,6 +1106,10 @@ public class LocadoradeVeiculos {
             System.out.println(e2.getMessage());
         } catch (CategoriaJaCadastradaException e2) {
             System.out.println(e2.getMessage());
-        }
+        }catch (CategoriaNaoCadastradaException e3) {
+            System.out.println(e3.getMessage());
+    
+    }
+  }
 }
-}
+

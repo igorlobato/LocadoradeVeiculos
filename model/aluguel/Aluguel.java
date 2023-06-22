@@ -1,13 +1,12 @@
 package model.aluguel;
 
-import model.veiculos.Carro;
-import model.veiculos.Moto;
+import java.io.Serializable;
 import model.veiculos.Veiculo;
 import java.util.List;
 import model.cliente.Cliente;
 import model.veiculos.Categoria;
 
-public class Aluguel {
+public class Aluguel implements Serializable{
     private Veiculo veiculo;
     private String dataSaida;
     private String dataDevolucao;

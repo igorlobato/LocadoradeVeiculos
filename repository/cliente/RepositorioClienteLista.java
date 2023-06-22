@@ -1,9 +1,10 @@
 package repository.cliente;
+import java.io.Serializable;
 import model.cliente.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepositorioClienteLista implements RepositorioCliente{
+public class RepositorioClienteLista implements RepositorioCliente, Serializable {
     List<Cliente> clientes;
 
   public RepositorioClienteLista() {

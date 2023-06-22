@@ -1,10 +1,11 @@
 package repository.aluguel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import model.aluguel.Aluguel;
 
-public class RepositorioAluguelLista implements RepositorioAluguel{
+public class RepositorioAluguelLista implements RepositorioAluguel, Serializable {
     List<Aluguel> alugueis;
 
     public RepositorioAluguelLista() {

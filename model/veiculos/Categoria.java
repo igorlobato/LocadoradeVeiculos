@@ -1,5 +1,8 @@
 package model.veiculos;
-public class Categoria {
+
+import java.io.Serializable;
+
+public class Categoria implements Serializable{
     private String categoria;
     private String descricao;
     private double valorDiaria;
@@ -46,6 +49,6 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return "Categoria{" + "categoria=" + categoria + ", descricao=" + descricao + ", valorDiaria=" + valorDiaria + ", para=" + para + '}';
+        return categoria;
     }
 }

@@ -1,7 +1,8 @@
 package model.veiculos;
+import java.io.Serializable;
 import model.cliente.Cliente;
 
-public abstract class Veiculo {
+public abstract class Veiculo implements Serializable{
     protected String modelo;
     protected String marca;
     protected String placa;

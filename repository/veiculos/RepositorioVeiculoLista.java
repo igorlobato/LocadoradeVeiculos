@@ -1,9 +1,10 @@
 package repository.veiculos;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import model.veiculos.Veiculo;
 
-public class RepositorioVeiculoLista implements RepositorioVeiculo{
+public class RepositorioVeiculoLista implements RepositorioVeiculo, Serializable {
     List<Veiculo> veiculos;
 
     public RepositorioVeiculoLista() {

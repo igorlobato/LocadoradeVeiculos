@@ -1,7 +1,9 @@
 package model.cliente;
 
+import java.io.Serializable;
 
-public class Cliente {
+
+public class Cliente implements Serializable{
     private String nome;
     private String cpf;
     private String endereco;

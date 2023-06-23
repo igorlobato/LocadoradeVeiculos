@@ -1,25 +1,24 @@
 package model.aluguel;
 
+import java.io.Serializable;
 import model.veiculos.Veiculo;
 import java.util.List;
 import model.cliente.Cliente;
 import model.veiculos.Categoria;
 
-public class Aluguel {
+public class Aluguel implements Serializable{
     private Veiculo veiculo;
     private String dataSaida;
     private String dataDevolucao;
     private int quantidadeDiarias;
     private int diascomVeiculo;
-    private Categoria categoria;
     private Cliente cliente;
 
-    public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, int quantidadeDiarias, Categoria categoria, Cliente cliente) {
+    public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, int quantidadeDiarias, Cliente cliente) {
         this.veiculo = veiculo;
         this.dataSaida = dataSaida;
         this.dataDevolucao = dataDevolucao;
         this.quantidadeDiarias = quantidadeDiarias;
-        this.categoria = categoria;
         this.cliente = cliente;
     }
     
@@ -73,14 +72,6 @@ public class Aluguel {
         this.diascomVeiculo = diascomVeiculo;
     }
     
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
     public Cliente getCliente() {
         return cliente;
     }

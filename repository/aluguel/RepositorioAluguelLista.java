@@ -1,10 +1,11 @@
 package repository.aluguel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import model.aluguel.Aluguel;
 
-public class RepositorioAluguelLista implements RepositorioAluguel{
+public class RepositorioAluguelLista implements RepositorioAluguel, Serializable {
     List<Aluguel> alugueis;
 
     public RepositorioAluguelLista() {
@@ -35,7 +36,7 @@ public class RepositorioAluguelLista implements RepositorioAluguel{
     @Override
     public Aluguel verificarAluguel(String placa) throws AluguelNaoCadastradoException {
         for (Aluguel aluguel : alugueis) {
-          if (aluguel.getCategoria().equals(placa)) {
+          if (aluguel.getVeiculo().equals(placa)) {
             return aluguel;
           }
         }
@@ -51,7 +52,7 @@ public class RepositorioAluguelLista implements RepositorioAluguel{
     public List<Aluguel> getAll(String categoria) {
         List<Aluguel> lista = new ArrayList<>();
         for (Aluguel aluguel : alugueis) {
-            if (aluguel.getCategoria().equals(categoria)) {
+            if (aluguel.getVeiculo().equals(categoria)) {
                 lista.add(aluguel);
             }
         }

@@ -1,10 +1,11 @@
 package repository.categoria;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import model.veiculos.Categoria;
 
-public class RepositorioCategoriaLista implements RepositorioCategoria{
+public class RepositorioCategoriaLista implements RepositorioCategoria, Serializable {
     List<Categoria> categorias;
     
     public RepositorioCategoriaLista() {

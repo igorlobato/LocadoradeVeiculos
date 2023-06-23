@@ -1,5 +1,8 @@
 package model.veiculos;
-public class Categoria {
+
+import java.io.Serializable;
+
+public class Categoria implements Serializable{
     private String categoria;
     private String descricao;
     private double valorDiaria;

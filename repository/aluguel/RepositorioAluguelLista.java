@@ -36,12 +36,13 @@ public class RepositorioAluguelLista implements RepositorioAluguel, Serializable
     @Override
     public Aluguel verificarAluguel(String placa) throws AluguelNaoCadastradoException {
         for (Aluguel aluguel : alugueis) {
-          if (aluguel.getCategoria().equals(placa)) {
-            return aluguel;
-          }
+            if (aluguel.getVeiculo().getPlaca().equals(placa)) {
+                return aluguel;
+            }
         }
         throw new AluguelNaoCadastradoException();
     }
+
 
     @Override
     public List<Aluguel> getAll() {
@@ -52,7 +53,7 @@ public class RepositorioAluguelLista implements RepositorioAluguel, Serializable
     public List<Aluguel> getAll(String categoria) {
         List<Aluguel> lista = new ArrayList<>();
         for (Aluguel aluguel : alugueis) {
-            if (aluguel.getCategoria().equals(categoria)) {
+            if (aluguel.getVeiculo().equals(categoria)) {
                 lista.add(aluguel);
             }
         }

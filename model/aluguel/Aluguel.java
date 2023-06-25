@@ -13,6 +13,7 @@ public class Aluguel implements Serializable{
     private int quantidadeDiarias;
     private int diascomVeiculo;
     private Cliente cliente;
+    private boolean ativo;
 
     public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, int quantidadeDiarias, Cliente cliente) {
         this.veiculo = veiculo;
@@ -76,8 +77,24 @@ public class Aluguel implements Serializable{
         return cliente;
     }
 
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+    
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+    
+    public void ativo() {
+    this.ativo = true;
+    }
+    
+    public void desativo() {
+    this.ativo = false;
     }
     
     public void verificarDisponibilidade(String modelo){

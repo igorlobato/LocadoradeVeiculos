@@ -13,6 +13,7 @@ import model.veiculos.Veiculo;
 import repository.aluguel.AluguelJaCadastradoException;
 import repository.aluguel.AluguelNaoCadastradoException;
 import repository.aluguel.RepositorioAluguel;
+import repository.aluguel.RepositorioAluguelLista;
 import repository.categoria.CategoriaJaCadastradaException;
 import repository.categoria.CategoriaNaoCadastradaException;
 import repository.categoria.RepositorioCategoria;
@@ -44,6 +45,7 @@ public class LocadoraFacade{
 			repositorioCliente = new RepositorioClienteLista();
                         repositorioVeiculo = new RepositorioVeiculoLista();
                         repositorioCategoria = new RepositorioCategoriaLista();
+                        repositorioAluguel = new RepositorioAluguelLista();
 		}
 	}
 
@@ -150,24 +152,24 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
     return aluguel;
   }
 
-  public Aluguel verificarAluguel(String aluguel) throws AluguelNaoCadastradoException {
-        return repositorioAluguel.verificarAluguel(aluguel);
+  public Aluguel verificarAluguel(String placa) throws AluguelNaoCadastradoException {
+        return repositorioAluguel.verificarAluguel(placa);
   }
   
   public void alterarAluguel(Categoria categoria) throws AluguelNaoCadastradoException  {
       //repositorioCategoria.alterarCategoria(categoria);
   }
     
-  public void cancelarAluguel(Categoria categoria) throws AluguelNaoCadastradoException, LocadoraException {
-      //repositorioCategoria.deletarCategoria(categoria);
+  public void devolverVeiculo(Aluguel aluguel) throws AluguelNaoCadastradoException{
+      repositorioAluguel.devolverVeiculo(aluguel);
   }
   
   public List<Aluguel> getAllAlugueis() {
     return repositorioAluguel.getAll();
   }
 
-  public List<Aluguel> getAllAlugueis(String categoria) {
-    return repositorioAluguel.getAll(categoria);
+  public List<Aluguel> getAllAlugueis(Cliente cliente) throws ClienteNaoCadastradoException{
+    return repositorioAluguel.getAll(cliente);
   }
   
   private void loadData() {

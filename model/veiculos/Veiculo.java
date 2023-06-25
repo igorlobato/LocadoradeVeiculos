@@ -89,6 +89,13 @@ public abstract class Veiculo implements Serializable{
         this.alugado = alugado;
     }
     
+    public void alugar() {
+    this.alugado = true;
+    }
+    
+    public void devolver() {
+    this.alugado = false;
+    }
 
     @Override
     public String toString() {

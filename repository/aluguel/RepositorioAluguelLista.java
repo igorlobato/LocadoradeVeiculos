@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import model.aluguel.Aluguel;
+import model.cliente.Cliente;
 
 public class RepositorioAluguelLista implements RepositorioAluguel, Serializable {
     List<Aluguel> alugueis;
@@ -29,8 +30,10 @@ public class RepositorioAluguelLista implements RepositorioAluguel, Serializable
     }
 
     @Override
-    public void cancelarAluguel(Aluguel aluguel) throws AluguelNaoCadastradoException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void devolverVeiculo(Aluguel aluguel) throws AluguelNaoCadastradoException {
+        if (!alugueis.remove(aluguel)) {
+            throw new AluguelNaoCadastradoException();
+        }
     }
 
     @Override
@@ -50,10 +53,10 @@ public class RepositorioAluguelLista implements RepositorioAluguel, Serializable
     }
 
     @Override
-    public List<Aluguel> getAll(String categoria) {
+    public List<Aluguel> getAll(Cliente cliente) {
         List<Aluguel> lista = new ArrayList<>();
         for (Aluguel aluguel : alugueis) {
-            if (aluguel.getVeiculo().equals(categoria)) {
+            if (aluguel.getCliente().equals(cliente)) {
                 lista.add(aluguel);
             }
         }

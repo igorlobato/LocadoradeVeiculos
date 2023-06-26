@@ -26,6 +26,7 @@ public class Aluguel implements Serializable{
         this.dataDevolucao = dataDevolucao;
         this.cliente = cliente;
         this.ativo = false;
+        this.valorPagar = 0;
     }
     
     private List<Veiculo> listaVeiculos; 

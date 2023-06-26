@@ -156,8 +156,8 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
         return repositorioAluguel.verificarAluguel(placa);
   }
   
-  public void alterarAluguel(Categoria categoria) throws AluguelNaoCadastradoException  {
-      //repositorioCategoria.alterarCategoria(categoria);
+  public Aluguel verificarAluguelAtivo(String placa) throws AluguelNaoCadastradoException  {
+        return repositorioAluguel.verificarAluguelAtivo(placa);
   }
     
   public void devolverVeiculo(Aluguel aluguel) throws AluguelNaoCadastradoException{

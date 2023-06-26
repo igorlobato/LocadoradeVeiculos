@@ -62,5 +62,15 @@ public class RepositorioAluguelLista implements RepositorioAluguel, Serializable
         }
         return lista;
     }
+
+    @Override
+    public Aluguel verificarAluguelAtivo(String placa) throws AluguelNaoCadastradoException {
+        for (Aluguel aluguel : alugueis) {
+            if (aluguel.getVeiculo().getPlaca().equals(placa) && aluguel.isAtivo()) {
+                return aluguel;
+            }
+        }
+        throw new AluguelNaoCadastradoException();
+    }
     }
     

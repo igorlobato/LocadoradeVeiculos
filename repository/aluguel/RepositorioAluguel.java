@@ -12,6 +12,8 @@ public interface RepositorioAluguel {
     void devolverVeiculo(Aluguel aluguel) throws AluguelNaoCadastradoException;
 
     Aluguel verificarAluguel(String placa) throws AluguelNaoCadastradoException;
+    
+    Aluguel verificarAluguelAtivo (String placa)throws AluguelNaoCadastradoException;
 
     List<Aluguel> getAll();
     

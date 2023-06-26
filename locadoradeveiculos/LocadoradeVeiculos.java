@@ -928,6 +928,7 @@ class LocadoradeVeiculos {
             aluguel.getVeiculo().alugar();
             aluguel.ativo();
             aluguel.calcularQuantidadeDiarias();
+            aluguel.setValorPagar(aluguel.getVeiculo().getCategoria().getValorDiaria() * aluguel.getQuantidadeDiarias());
 
             try {
                 facade.novoAluguel(aluguel);
@@ -955,17 +956,17 @@ class LocadoradeVeiculos {
             }
 
             try {
-                Aluguel aluguel = facade.verificarAluguel(veiculoPlaca);
+                Aluguel aluguel = facade.verificarAluguelAtivo(veiculoPlaca);
                 
 
-                if (!aluguel.getVeiculo().isAlugado()) {
+                if (!aluguel.isAtivo()) {
                     System.out.println("O veículo não possui aluguéis ativos.");
                     System.out.println();
                     System.out.println("Tecle <enter> para voltar");
                     scanner.nextLine();
                     return;
                 }
-                if (aluguel.isAtivo()) {
+                else{
                 System.out.println();
                 System.out.println("DEVOLVER O VEICULO DESTE ALUGUEL?");
                 System.out.println("============================================================================================================="
@@ -1065,14 +1066,15 @@ class LocadoradeVeiculos {
             System.out.println("ALUGUEIS ABERTOS");
             System.out.println("============================================================================================================="
                     + "==========================================================================");
-            System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                    "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
+            System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
+                    "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente",
+                    "Valor Previsto");
 
             for (Aluguel aluguel : alugueis) {
                 if (aluguel.isAtivo()) {
-                     System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                     System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
                     aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                    aluguel.getCliente().getNome());
+                    aluguel.getCliente().getNome(), aluguel.getValorPagar());
                     }
             }
 
@@ -1090,14 +1092,15 @@ class LocadoradeVeiculos {
             System.out.println("Historico de Alugueis");
             System.out.println("============================================================================================================="
                     + "==========================================================================");
-            System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                    "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
+            System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
+                    "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente",
+                    "Valor do Aluguel");
 
             for (Aluguel aluguel : alugueis) {
                 if (!aluguel.isAtivo()) {
-                    System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                    System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
                             aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                            aluguel.getCliente().getNome());
+                            aluguel.getCliente().getNome(), aluguel.getValorPagar());
                 }
             }
 

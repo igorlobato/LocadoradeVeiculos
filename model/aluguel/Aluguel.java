@@ -1,6 +1,9 @@
 package model.aluguel;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import model.veiculos.Veiculo;
 import java.util.List;
 import model.cliente.Cliente;
@@ -11,16 +14,18 @@ public class Aluguel implements Serializable{
     private String dataSaida;
     private String dataDevolucao;
     private int quantidadeDiarias;
-    private int diascomVeiculo;
     private Cliente cliente;
     private boolean ativo;
+    private double valorPagar;
+    private double multa;
+    private int diasAtrasados;
 
-    public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, int quantidadeDiarias, Cliente cliente) {
+    public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, Cliente cliente) {
         this.veiculo = veiculo;
         this.dataSaida = dataSaida;
         this.dataDevolucao = dataDevolucao;
-        this.quantidadeDiarias = quantidadeDiarias;
         this.cliente = cliente;
+        this.ativo = false;
     }
     
     private List<Veiculo> listaVeiculos; 
@@ -65,14 +70,6 @@ public class Aluguel implements Serializable{
         this.quantidadeDiarias = quantidadeDiarias;
     }
 
-    public int getDiascomVeiculo() {
-        return diascomVeiculo;
-    }
-
-    public void setDiascomVeiculo(int diascomVeiculo) {
-        this.diascomVeiculo = diascomVeiculo;
-    }
-    
     public Cliente getCliente() {
         return cliente;
     }
@@ -87,6 +84,30 @@ public class Aluguel implements Serializable{
     
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public double getValorPagar() {
+        return valorPagar;
+    }
+
+    public void setValorPagar(double valorPagar) {
+        this.valorPagar = valorPagar;
+    }
+
+    public double getMulta() {
+        return multa;
+    }
+
+    public void setMulta(double multa) {
+        this.multa = multa;
+    }
+
+    public int getDiasAtrasados() {
+        return diasAtrasados;
+    }
+
+    public void setDiasAtrasados(int diasAtrasados) {
+        this.diasAtrasados = diasAtrasados;
     }
     
     public void ativo() {
@@ -114,22 +135,12 @@ public class Aluguel implements Serializable{
        }
     }
     
-    public void ControlheAluguel(String modelo){
-        //mostrar os veiculos alugarodos e o status do aluguel data etc.
+    public void calcularQuantidadeDiarias() {
+    LocalDate dataSaida = LocalDate.parse(this.dataSaida, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    LocalDate dataDevolucao = LocalDate.parse(this.dataDevolucao, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    long diferenca = ChronoUnit.DAYS.between(dataSaida, dataDevolucao);
+    this.quantidadeDiarias = Math.toIntExact(diferenca);    
     }
-    
-    public void valorPagar(){
-    
-    }
-    
-    public void MultaAtraso(){
-        
-       /* double diasAtrasados = (this.diascomVeiculo - this.quantidadeDiarias);
-        double multa;
-        
-        if (diasAtrasados > 0){
-            multa = (diasAtrasados * 250) + (diasAtrasados * this.valorDiaria.getValorDiatia);
-            System.out.println("Você atrasou a devolução! Você deve pagar " + multa + "R$ de multa");*/
-        }
     }
 
+    

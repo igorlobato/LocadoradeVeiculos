@@ -416,7 +416,6 @@ class LocadoradeVeiculos {
 		System.out.println("==================");
 		System.out.print("Placa: ");
 		String placa = scanner.nextLine();
-                //trocar veiculo por carro quando possível
 		try {
 			Veiculo carro = facade.verificarDisponibilidade(placa);
                         System.out.println();
@@ -425,8 +424,9 @@ class LocadoradeVeiculos {
                         System.out.println("Placa: " + carro.getPlaca());
                         System.out.println("Cor: " + carro.getCor());
                         System.out.println("Ano de Fabricação: " + carro.getAnodefabricao());
-                        System.out.println("Quilometragem: " + carro.getQuilometragem());
+                        System.out.println("Quilometragem: R$ " + carro.getQuilometragem());
                         System.out.println("Categoria: " + carro.getCategoria());
+                        System.out.println("Preço da diaria: " + carro.getCategoria().getValorDiaria());
                         if (carro instanceof Carro) {
                             Carro carroDetalhes = (Carro) carro;
                             System.out.println("Número de Portas: " + carroDetalhes.getNumerodeportas());
@@ -609,6 +609,7 @@ class LocadoradeVeiculos {
                         System.out.println("Ano de Fabricação: " + moto.getAnodefabricao());
                         System.out.println("Quilometragem: " + moto.getQuilometragem());
                         System.out.println("Categoria: " + moto.getCategoria());
+                        System.out.println("Preço da diaria: R$ " + moto.getCategoria().getValorDiaria());
                         if (moto instanceof Moto) {
                             Moto motoDetalhes = (Moto) moto;
                             System.out.println("Cilindrada: " + motoDetalhes.getCilindrada());
@@ -845,6 +846,7 @@ class LocadoradeVeiculos {
 			System.out.println("<2> Devolver Veiculo");
 			System.out.println("<3> Listar Alugueis");
 			System.out.println("<4> Listar Veiculos de Cliente");
+                        System.out.println("<5> Historico de Alugueis");
 			System.out.println("<0> Menu Principal");
 			System.out.println();
 			System.out.print("Escolha uma opção: ");
@@ -872,137 +874,189 @@ class LocadoradeVeiculos {
 			case 4:
 				listarVeiculosCliente();
 				break;
+                        case 5:
+                                listarAlugueisPassados();
+                                break;
 			}
 		} while (opcao != 0);
 	}
         
-        public static void alugarVeiculo(){
-                limpaTela();
-                System.out.println("Alugar Veiculo");
-                System.out.println("===================");
-                System.out.print("Digite a placa do veículo: ");
-                String veiculoPlaca = scanner.next();
-                Veiculo veiculo = null;
-                try {
-                    veiculo = facade.verificarDisponibilidade(veiculoPlaca);
-                } catch (VeiculoNaoCadastradoException ex) {
-                    System.err.println(ex.getMessage());
-                }
-                
-                System.out.print("Digite a data que o veiculo vai ser alugado: ");
-                String dataSaida = scanner.next();
-                System.out.print("Digite a data que o veiculo vai ser devolvido: ");
-                String dataDevolver = scanner.next();
-                System.out.print("Quantidade de dias que o veiculo sera alugado: ");
-                int dias = scanner.nextInt();
-                System.out.print("Cliente(CPF): ");
-                String clienteCpf = scanner.next();
-                Cliente cliente = null;
-                try {
-                    cliente = facade.buscarCliente(clienteCpf);
-                } catch (ClienteNaoCadastradoException ex) {
-                    System.err.println(ex.getMessage());
-                }
+        public static void alugarVeiculo() {
+            //
+            limpaTela();
+            System.out.println("Alugar Veiculo");
+            System.out.println("===================");
 
-                Aluguel aluguel = new Aluguel(veiculo, dataSaida, dataDevolver, dias, cliente);
-                veiculo.alugar();
-                aluguel.ativo();
+            System.out.print("Digite a placa do veículo: ");
+            String veiculoPlaca = scanner.next();
 
-                try {
-                    facade.novoAluguel(aluguel);
-                    System.out.println("Aluguel cadastrado!");
-                } catch (AluguelJaCadastradoException ex) {
-                    System.err.println(ex.getMessage());
-                }
-
-                System.out.println("tecle <enter> para voltar");
-                scanner.nextLine();
-                scanner.nextLine();
+            Veiculo veiculo = null;
+            try {
+                veiculo = facade.verificarDisponibilidade(veiculoPlaca);
+            } catch (VeiculoNaoCadastradoException ex) {
+                System.err.println(ex.getMessage());
             }
+            
+
+            System.out.print("Digite a data que o veiculo vai ser alugado: ");
+            String dataSaida = scanner.next();
+
+            System.out.print("Digite a data que o veiculo vai ser devolvido: ");
+            String dataDevolucao = scanner.next();
+
+            System.out.print("Cliente (CPF): ");
+            String clienteCpf = scanner.next();
+
+            Cliente cliente = null;
+            try {
+                cliente = facade.buscarCliente(clienteCpf);
+            } catch (ClienteNaoCadastradoException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+            Aluguel aluguel = new Aluguel(veiculo, dataSaida, dataDevolucao, cliente);
+            
+            if (aluguel.getVeiculo().isAlugado()) {
+            System.out.println("O veículo já está alugado e não está disponível para um novo aluguel.");
+            System.out.println();
+            System.out.println("Tecle <enter> para voltar");
+            scanner.nextLine();
+            scanner.nextLine();
+            return;
+            }
+            
+            aluguel.getVeiculo().alugar();
+            aluguel.ativo();
+            aluguel.calcularQuantidadeDiarias();
+
+            try {
+                facade.novoAluguel(aluguel);
+                System.out.println("Aluguel cadastrado!");
+            } catch (AluguelJaCadastradoException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+            System.out.println("tecle <enter> para voltar");
+            scanner.nextLine();
+            scanner.nextLine();
+        }
+
         
         
-        public static void devolverVeiculo(){
-		limpaTela();
-		System.out.print("Digite a placa do veículo a ser devolvido: ");
-                String veiculoPlaca = scanner.nextLine();
-                Veiculo veiculo = null;
-                try {
-                    veiculo = facade.verificarDisponibilidade(veiculoPlaca);
-                } catch (VeiculoNaoCadastradoException ex) {
-                    System.err.println(ex.getMessage());
+        public static void devolverVeiculo() {
+            limpaTela();
+            System.out.print("Digite a placa do veículo a ser devolvido: ");
+            String veiculoPlaca = scanner.nextLine();
+            Veiculo veiculo = null;
+            try {
+                veiculo = facade.verificarDisponibilidade(veiculoPlaca);
+            } catch (VeiculoNaoCadastradoException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+            try {
+                Aluguel aluguel = facade.verificarAluguel(veiculoPlaca);
+                
+
+                if (!aluguel.getVeiculo().isAlugado()) {
+                    System.out.println("O veículo não possui aluguéis ativos.");
+                    System.out.println();
+                    System.out.println("Tecle <enter> para voltar");
+                    scanner.nextLine();
+                    return;
+                }
+                if (aluguel.isAtivo()) {
+                System.out.println();
+                System.out.println("DEVOLVER O VEICULO DESTE ALUGUEL?");
+                System.out.println("============================================================================================================="
+                        + "==========================================================================");
+                System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                        "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
+
+                System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                        aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
+                        aluguel.getCliente().getNome());
+
+                System.out.println();
+
+                System.out.print("Devolver esse veiculo? (s/n)?");
+                String resposta = scanner.nextLine();
+
+                if (resposta.equalsIgnoreCase("s")) {
+                    aluguel.getVeiculo().devolver();
+                    aluguel.desativo();
+
+                    System.out.print("Houve atraso na devolução? (s/n): ");
+                    String atraso = scanner.nextLine();
+
+                    if (atraso.equalsIgnoreCase("s")) {
+                        System.out.print("Quantos dias de atraso: ");
+                        int diasAtraso = Integer.parseInt(scanner.nextLine());
+                        aluguel.setDiasAtrasados(diasAtraso);
+                        aluguel.setMulta(diasAtraso * 300);
+                    } else {
+                        aluguel.setDiasAtrasados(0);
+                        aluguel.setMulta(0);
+                    }
+
+                    aluguel.setValorPagar(aluguel.getVeiculo().getCategoria().getValorDiaria() * aluguel.getQuantidadeDiarias() + aluguel.getMulta());
+
+                    System.out.println("Veiculo devolvido!");
+                    System.out.println("Quantidade de dias com o veículo: " + aluguel.getQuantidadeDiarias());
+                    System.out.println("Dias de atraso: " + aluguel.getDiasAtrasados());
+                    System.out.println("Valor da multa: R$" + aluguel.getMulta());
+                    System.out.println("Valor a pagar: R$" + aluguel.getValorPagar());
+                }
                 }
 
-		try {
-			Aluguel aluguel = facade.verificarAluguel(veiculoPlaca);
-			System.out.println();
-                        System.out.println("DEVOLVER O VEICULO DESTE ALUGUEL?");
-                        System.out.println("============================================================================================================="
-                                + "==========================================================================");
-                        System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                                "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
+            } catch (RepositoryException ex) {
+                System.err.println(ex.getMessage());
+            }
 
-                        System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                            aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                            aluguel.getCliente().getNome());
-                            
-                        System.out.println();
-
-			System.out.print("Devolver esse veiculo? (s/n)?");
-			String resposta = scanner.nextLine();
-
-			if (resposta.equalsIgnoreCase("s")) {
-				facade.devolverVeiculo(aluguel);
-				System.out.println("Veiculo excluído!");
-                                aluguel.getVeiculo().devolver();
-                                //aluguel.desativo();
-			}
-
-		} catch (RepositoryException ex) {
-			System.err.println(ex.getMessage());
-		}
-
-		System.out.println();
-		System.out.println("tecle <enter> para voltar");
-		scanner.nextLine();
+            System.out.println();
+            System.out.println("tecle <enter> para voltar");
+            scanner.nextLine();
         }
+
+
         
         public static void listarVeiculosCliente() {
-        limpaTela();
-        System.out.println("Consultar veículos alugados de cliente");
-        System.out.println("==================");
-        System.out.print("CPF do cliente: ");
-        String clienteCpf = scanner.next();
-        Cliente cliente = null;
-        try {
-            cliente = facade.buscarCliente(clienteCpf);
-        } catch (ClienteNaoCadastradoException ex) {
-            System.err.println(ex.getMessage());
-        }
-
-        try {
-            List<Aluguel> alugueis = facade.getAllAlugueis(cliente);
-            System.out.println("ALUGUEIS DO CLIENTE");
-            System.out.println("============================================================================================================="
-                    + "==========================================================================");
-            System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                    "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
-
-            for (Aluguel aluguel : alugueis) {
-                if (aluguel.getCliente().equals(cliente)) {
-                    System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                            aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                            aluguel.getCliente().getNome());
-                }
+            limpaTela();
+            System.out.println("Consultar veículos alugados de cliente");
+            System.out.println("==================");
+            System.out.print("CPF do cliente: ");
+            String clienteCpf = scanner.next();
+            Cliente cliente = null;
+            try {
+                cliente = facade.buscarCliente(clienteCpf);
+            } catch (ClienteNaoCadastradoException ex) {
+                System.err.println(ex.getMessage());
             }
-        } catch (ClienteNaoCadastradoException ex) {
-            System.err.println(ex.getMessage());
-        }
 
-        System.out.println();
-        System.out.println("tecle <enter> para voltar");
-        scanner.nextLine();
-        scanner.nextLine();
-    }
+            try {
+                List<Aluguel> alugueis = facade.getAllAlugueis(cliente);
+                System.out.println("ALUGUEIS DO CLIENTE");
+                System.out.println("============================================================================================================="
+                        + "==========================================================================");
+                System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s",
+                        "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente", "Ativo");
+
+                for (Aluguel aluguel : alugueis) {
+                    if (aluguel.getCliente().equals(cliente)) {
+                        System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
+                                aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
+                                aluguel.getCliente().getNome(), aluguel.isAtivo());
+                    }
+                }
+            } catch (ClienteNaoCadastradoException ex) {
+                System.err.println(ex.getMessage());
+            }
+
+            System.out.println();
+            System.out.println("tecle <enter> para voltar");
+            scanner.nextLine();
+            scanner.nextLine();
+        }
 
         
         private static void listarAlugueis() {
@@ -1015,9 +1069,36 @@ class LocadoradeVeiculos {
                     "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
 
             for (Aluguel aluguel : alugueis) {
-                System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
-                        aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                        aluguel.getCliente().getNome());
+                if (aluguel.isAtivo()) {
+                     System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                    aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
+                    aluguel.getCliente().getNome());
+                    }
+            }
+
+            System.out.println("============================================================================================================="
+                    + "==========================================================================");
+            System.out.println();
+            System.out.println("Pressione <enter> para voltar");
+            scanner.nextLine();
+        }
+        
+        private static void listarAlugueisPassados() {
+            limpaTela();
+            List<Aluguel> alugueis = facade.getAllAlugueis();
+
+            System.out.println("Historico de Alugueis");
+            System.out.println("============================================================================================================="
+                    + "==========================================================================");
+            System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                    "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente");
+
+            for (Aluguel aluguel : alugueis) {
+                if (!aluguel.isAtivo()) {
+                    System.out.printf("%-25s %-25s %-25s %-25s %-25s\n",
+                            aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
+                            aluguel.getCliente().getNome());
+                }
             }
 
             System.out.println("============================================================================================================="

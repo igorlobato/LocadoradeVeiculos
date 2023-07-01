@@ -19,6 +19,7 @@ public class Aluguel implements Serializable{
     private double valorPagar;
     private double multa;
     private int diasAtrasados;
+    private double quilometrosRodados;
 
     public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, Cliente cliente) {
         this.veiculo = veiculo;
@@ -109,6 +110,14 @@ public class Aluguel implements Serializable{
 
     public void setDiasAtrasados(int diasAtrasados) {
         this.diasAtrasados = diasAtrasados;
+    }
+
+    public double getQuilometrosRodados() {
+        return quilometrosRodados;
+    }
+
+    public void setQuilometrosRodados(double quilometrosRodados) {
+        this.quilometrosRodados = quilometrosRodados;
     }
     
     public void ativo() {

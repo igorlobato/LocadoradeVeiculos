@@ -90,29 +90,6 @@ public class LocadoraFacade{
 public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException, LocadoraException {
       repositorioVeiculo.deletarVeiculo(veiculo);
 }
-
-    /*
-  public void deposito(String numero, double valor) throws ContaNaoCadastradaException {
-    Conta conta = repositorioConta.buscarConta(numero);
-    conta.depositar(valor);
-    repositorioConta.alterarConta(conta);
-  }
-
-  public void saque(String numero, double valor) throws ContaNaoCadastradaException, SaldoInsuficienteException {
-    Conta conta = repositorioConta.buscarConta(numero);
-    conta.sacar(valor);
-    repositorioConta.alterarConta(conta);
-  }
-
-  public void tranferir(String origem, String destino, double valor) throws ContaNaoCadastradaException, SaldoInsuficienteException {
-    Conta conta1 = repositorioConta.buscarConta(origem);
-    Conta conta2 = repositorioConta.buscarConta(destino);
-    conta1.transferirPara(conta2, valor);
-    repositorioConta.alterarConta(conta1);
-    repositorioConta.alterarConta(conta2);
-  }
-
-*/
     
   public List<Veiculo> getAllVeiculos() {
     return repositorioVeiculo.getAll();

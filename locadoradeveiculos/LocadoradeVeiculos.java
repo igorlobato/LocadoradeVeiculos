@@ -1,5 +1,6 @@
 package locadoradeveiculos;
 
+import DAO.ClienteDAO;
 import Facade.LocadoraException;
 import Facade.LocadoraFacade;
 import java.util.List;
@@ -127,9 +128,9 @@ class LocadoradeVeiculos {
 		System.out.println("Cadastro de Cliente");
 		System.out.println("===================");
 		System.out.print("Nome: ");
-		String cpf = scanner.nextLine();
-		System.out.print("CPF: ");
 		String nome = scanner.nextLine();
+		System.out.print("CPF: ");
+		String cpf = scanner.nextLine();
                 System.out.print("Endereco: ");
 		String endereco = scanner.nextLine();
                 System.out.print("Telefone: ");
@@ -151,11 +152,12 @@ class LocadoradeVeiculos {
                 }
                 
 
-		Cliente cliente = new Cliente(cpf, nome, endereco, fone, nas, sexo, cnh);
-
+		Cliente cliente = new Cliente(nome, cpf, endereco, fone, nas, sexo, cnh);
+                
+                new ClienteDAO().cadastrarCliente(cliente);
+                
 		try {
 			facade.inserirCliente(cliente);
-			System.out.println("Cliente cadastrado!");
 		} catch (CPFJaCadastradoException ex) {
 			System.err.println(ex.getMessage());
 		}
@@ -165,109 +167,113 @@ class LocadoradeVeiculos {
 	}
 
 	private static void listarCliente() {
-            limpaTela();
-            List<Cliente> clientes = facade.getAllClientes();
-            System.out.println("CLIENTES CADASTRADOS");
-            System.out.println("=============================================================================");
-            System.out.printf("%-14s %-15s %-10s %-15s %-20s\n",
-                    "CPF", "Nome", "Sexo", "Telefone", "Data de Nascimento");
+                limpaTela();
+                List<Cliente> clientes = new ClienteDAO().listarClientes();
 
-            for (Cliente cliente : clientes) {
-                System.out.printf("%-14s %-15s %-10s %-15s %-20s\n",
-                        cliente.getCpf(), cliente.getNome(), cliente.getSexo(), cliente.getTelefone(), cliente.getAnocnh());
+                System.out.println("CLIENTES CADASTRADOS");
+                System.out.println("=====================================================================================================");
+                System.out.printf("%-15s %-15s %-15s %-15s %-20s %-20s\n",
+                        "Nome", "CPF", "Sexo", "Telefone", "Data de Nascimento", "Ano da CNH");
+
+                for (Cliente cliente : clientes) {
+                    System.out.printf("%-15s %-15s %-15s %-15s %-20s %-15s\n",
+                            cliente.getNome(), cliente.getCpf(), cliente.getSexo(),
+                            cliente.getTelefone(), cliente.getDatadenascimento(), cliente.getAnocnh());
+                }
+
+                System.out.println("=====================================================================================================");
+                System.out.println();
+                System.out.println("Pressione <enter> para voltar");
+                scanner.nextLine();
             }
-
-            System.out.println("=============================================================================");
-            System.out.println();
-            System.out.println("Pressione <enter> para voltar");
-            scanner.nextLine();
-        }
 
 
 	private static void excluirCliente() {
-		limpaTela();
-		System.out.println("Excluir Clientes");
-		System.out.println("==================");
-		System.out.print("CPF: ");
-		String cpf = scanner.nextLine();
+                limpaTela();
+                System.out.println("Excluir Cliente");
+                System.out.println("==================");
+                System.out.print("CPF: ");
+                String cpf = scanner.nextLine();
 
-		try {
-			Cliente cliente = facade.buscarCliente(cpf);
-			System.out.println();
-			System.out.println("Nome: " + cliente.getNome());
-			System.out.println("Sexo: " + cliente.getSexo());
-			System.out.println("Telefone: " + cliente.getTelefone());
-			System.out.println();
+                try {
+                    Cliente cliente = facade.buscarCliente(cpf);
+                    System.out.println();
+                    System.out.println("Nome: " + cliente.getNome());
+                    System.out.println("Sexo: " + cliente.getSexo());
+                    System.out.println("Telefone: " + cliente.getTelefone());
+                    System.out.println();
 
-			System.out.print("Excluir esse cliente? (s/n)?");
-			String resposta = scanner.nextLine();
+                    System.out.print("Excluir esse cliente? (s/n)?");
+                    String resposta = scanner.nextLine();
 
-			if (resposta.equalsIgnoreCase("s")) {
-				facade.excluirCliente(cliente);
-				System.out.println("Cliente excluído!");
-			}
+                    if (resposta.equalsIgnoreCase("s")) {
+                        facade.excluirCliente(cliente);
+                        new ClienteDAO().excluirCliente(cpf);
+                        System.out.println("Cliente excluído!");
+                    }
 
-		} catch (ClienteNaoCadastradoException | LocadoraException ex) {
-			System.err.println(ex.getMessage());
-		}
+                } catch (ClienteNaoCadastradoException | LocadoraException ex) {
+                    System.err.println(ex.getMessage());
+                }
 
-		System.out.println();
-		System.out.println("tecle <enter> para voltar");
-		scanner.nextLine();
-	}
+                System.out.println();
+                System.out.println("tecle <enter> para voltar");
+                scanner.nextLine();
+            }
 
 	private static void alterarCliente() {
-		limpaTela();
-		System.out.println("Alterar Cliente");
-		System.out.println("==================");
-		System.out.print("CPF: ");
-		String cpf = scanner.nextLine();
+                limpaTela();
+                System.out.println("Alterar Cliente");
+                System.out.println("==================");
+                System.out.print("CPF: ");
+                String cpf = scanner.nextLine();
 
-		try {
-			Cliente cliente = facade.buscarCliente(cpf);
-                        
-			System.out.print("CPF (<enter> = Não alterar): ");
-			String novoCpf = scanner.nextLine();
-			if (!novoCpf.equals("")) {
-				cliente.setCpf(novoCpf);
-			}
+                try {
+                    Cliente cliente = facade.buscarCliente(cpf);
 
-			System.out.println();
-			System.out.println("Nome: " + cliente.getNome());
-			System.out.print("Nome (<enter> = Não alterar): ");
-			String nome = scanner.nextLine();
-			if (!nome.equals("")) {
-				cliente.setNome(nome);
-			}
+                    System.out.print("CPF (<enter> = Não alterar): ");
+                    String novoCpf = scanner.nextLine();
+                    if (!novoCpf.equals("")) {
+                        cliente.setCpf(novoCpf);
+                    }
 
-			System.out.println("Sexo: " + cliente.getSexo());
-			System.out.print("Sexo (<enter> = Não alterar): ");
-			String sexo = scanner.nextLine();
-			if (!sexo.equals("")) {
-				cliente.setSexo(sexo);
-			}
+                    System.out.println();
+                    System.out.println("Nome: " + cliente.getNome());
+                    System.out.print("Nome (<enter> = Não alterar): ");
+                    String nome = scanner.nextLine();
+                    if (!nome.equals("")) {
+                        cliente.setNome(nome);
+                    }
 
-			System.out.println("Telefone: " + cliente.getTelefone());
-			System.out.print("Telefone (<enter> = Não alterar): ");
-			String fone = scanner.nextLine();
-			if (!fone.equals("")) {
-				cliente.setTelefone(fone);
-			}
+                    System.out.println("Sexo: " + cliente.getSexo());
+                    System.out.print("Sexo (<enter> = Não alterar): ");
+                    String sexo = scanner.nextLine();
+                    if (!sexo.equals("")) {
+                        cliente.setSexo(sexo);
+                    }
 
-			System.out.println();
+                    System.out.println("Telefone: " + cliente.getTelefone());
+                    System.out.print("Telefone (<enter> = Não alterar): ");
+                    String fone = scanner.nextLine();
+                    if (!fone.equals("")) {
+                        cliente.setTelefone(fone);
+                    }
 
-			facade.alterarCliente(cliente);
-			System.out.println("Cliente Alterado!");
-			System.out.println();
+                    System.out.println();
 
-		} catch (ClienteNaoCadastradoException ex) {
-			System.err.println(ex.getMessage());
-		}
+                    facade.alterarCliente(cliente);
+                    new ClienteDAO().atualizarCliente(cliente);
+                    System.out.println("Cliente Alterado!");
+                    System.out.println();
 
-		System.out.println();
-		System.out.println("tecle <enter> para voltar");
-		scanner.nextLine();
-	}
+                } catch (ClienteNaoCadastradoException ex) {
+                    System.err.println(ex.getMessage());
+                }
+
+                System.out.println();
+                System.out.println("tecle <enter> para voltar");
+                scanner.nextLine();
+            }
         
         
         private static void cadastroVeiculos(){

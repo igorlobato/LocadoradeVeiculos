@@ -17,10 +17,12 @@ import repository.aluguel.RepositorioAluguelLista;
 import repository.categoria.CategoriaJaCadastradaException;
 import repository.categoria.CategoriaNaoCadastradaException;
 import repository.categoria.RepositorioCategoria;
+import repository.categoria.RepositorioCategoriaDB;
 import repository.categoria.RepositorioCategoriaLista;
 import repository.cliente.CPFJaCadastradoException;
 import repository.cliente.ClienteNaoCadastradoException;
 import repository.cliente.RepositorioCliente;
+import repository.cliente.RepositorioClienteDB;
 import repository.cliente.RepositorioClienteLista;
 import repository.veiculos.RepositorioVeiculo;
 import repository.veiculos.RepositorioVeiculoLista;
@@ -42,9 +44,9 @@ public class LocadoraFacade{
 		if (file.exists()) {
 			loadData();
 		} else {
-			repositorioCliente = new RepositorioClienteLista();
+			repositorioCliente = new RepositorioClienteDB();
                         repositorioVeiculo = new RepositorioVeiculoLista();
-                        repositorioCategoria = new RepositorioCategoriaLista();
+                        repositorioCategoria = new RepositorioCategoriaDB();
                         repositorioAluguel = new RepositorioAluguelLista();
 		}
 	}
@@ -90,29 +92,6 @@ public class LocadoraFacade{
 public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException, LocadoraException {
       repositorioVeiculo.deletarVeiculo(veiculo);
 }
-
-    /*
-  public void deposito(String numero, double valor) throws ContaNaoCadastradaException {
-    Conta conta = repositorioConta.buscarConta(numero);
-    conta.depositar(valor);
-    repositorioConta.alterarConta(conta);
-  }
-
-  public void saque(String numero, double valor) throws ContaNaoCadastradaException, SaldoInsuficienteException {
-    Conta conta = repositorioConta.buscarConta(numero);
-    conta.sacar(valor);
-    repositorioConta.alterarConta(conta);
-  }
-
-  public void tranferir(String origem, String destino, double valor) throws ContaNaoCadastradaException, SaldoInsuficienteException {
-    Conta conta1 = repositorioConta.buscarConta(origem);
-    Conta conta2 = repositorioConta.buscarConta(destino);
-    conta1.transferirPara(conta2, valor);
-    repositorioConta.alterarConta(conta1);
-    repositorioConta.alterarConta(conta2);
-  }
-
-*/
     
   public List<Veiculo> getAllVeiculos() {
     return repositorioVeiculo.getAll();
@@ -143,10 +122,10 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
     return repositorioCategoria.getAll();
   }
 
-  public List<Categoria> getAllCategorias(String para) {
+  /*public List<Categoria> getAllCategorias(String para) {
     return repositorioCategoria.getAll(para);
   }
-  
+  */
   public Aluguel novoAluguel(Aluguel aluguel) throws AluguelJaCadastradoException {
     repositorioAluguel.novoAluguel(aluguel);
     return aluguel;

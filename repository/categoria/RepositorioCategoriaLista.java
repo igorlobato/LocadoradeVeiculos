@@ -50,7 +50,7 @@ public class RepositorioCategoriaLista implements RepositorioCategoria, Serializ
         return new ArrayList<>(categorias);
     }
 
-    @Override
+   /* @Override
     public List<Categoria> getAll(String para) {
         List<Categoria> lista = new ArrayList<>();
         for (Categoria categoria : categorias) {
@@ -59,5 +59,5 @@ public class RepositorioCategoriaLista implements RepositorioCategoria, Serializ
             }
         }
         return lista;
-    }
+    }*/
     }

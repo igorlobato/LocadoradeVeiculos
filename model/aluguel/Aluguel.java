@@ -30,16 +30,6 @@ public class Aluguel implements Serializable{
         this.valorPagar = 0;
     }
     
-    private List<Veiculo> listaVeiculos; 
-
-    public List<Veiculo> getListaVeiculos() {
-        return listaVeiculos;
-    }
-    
-    public void setListaVeiculos(List<Veiculo> listaVeiculos) {
-        this.listaVeiculos = listaVeiculos;
-    }
-
     public Veiculo getVeiculo() {
         return veiculo;
     }
@@ -128,22 +118,6 @@ public class Aluguel implements Serializable{
     this.ativo = false;
     }
     
-    public void verificarDisponibilidade(String modelo){
-            boolean disponivel = true;
-
-       for (Veiculo veiculo : listaVeiculos) {
-           if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
-               disponivel = false;
-               break;
-           }
-       }
-
-       if (disponivel) {
-           System.out.println("O veículo está disponível para aluguel.");
-       } else {
-           System.out.println("O veículo não está disponível para aluguel.");
-       }
-    }
     
     public void calcularQuantidadeDiarias() {
     LocalDate dataSaida = LocalDate.parse(this.dataSaida, DateTimeFormatter.ofPattern("dd/MM/yyyy"));

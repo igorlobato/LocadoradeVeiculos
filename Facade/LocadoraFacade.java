@@ -13,19 +13,17 @@ import model.veiculos.Veiculo;
 import repository.aluguel.AluguelJaCadastradoException;
 import repository.aluguel.AluguelNaoCadastradoException;
 import repository.aluguel.RepositorioAluguel;
-import repository.aluguel.RepositorioAluguelLista;
+import repository.aluguel.RepositorioAluguelDB;
 import repository.categoria.CategoriaJaCadastradaException;
 import repository.categoria.CategoriaNaoCadastradaException;
 import repository.categoria.RepositorioCategoria;
 import repository.categoria.RepositorioCategoriaDB;
-import repository.categoria.RepositorioCategoriaLista;
 import repository.cliente.CPFJaCadastradoException;
 import repository.cliente.ClienteNaoCadastradoException;
 import repository.cliente.RepositorioCliente;
 import repository.cliente.RepositorioClienteDB;
-import repository.cliente.RepositorioClienteLista;
 import repository.veiculos.RepositorioVeiculo;
-import repository.veiculos.RepositorioVeiculoLista;
+import repository.veiculos.RepositorioVeiculoDB;
 import repository.veiculos.VeiculoJaCadastradoException;
 import repository.veiculos.VeiculoNaoCadastradoException;
 
@@ -45,9 +43,9 @@ public class LocadoraFacade{
 			loadData();
 		} else {
 			repositorioCliente = new RepositorioClienteDB();
-                        repositorioVeiculo = new RepositorioVeiculoLista();
+                        repositorioVeiculo = new RepositorioVeiculoDB();
                         repositorioCategoria = new RepositorioCategoriaDB();
-                        repositorioAluguel = new RepositorioAluguelLista();
+                        repositorioAluguel = new RepositorioAluguelDB();
 		}
 	}
 
@@ -86,7 +84,7 @@ public class LocadoraFacade{
   }
 
   public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException  {
-      repositorioVeiculo.alterarVeiculo(veiculo);
+      //repositorioVeiculo.alterarVeiculo(veiculo);
   }
     
 public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException, LocadoraException {
@@ -98,7 +96,9 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
   }
 
   public List<Veiculo> getAllVeiculos(String modelo) {
-    return repositorioVeiculo.getAll(modelo);
+    //return repositorioVeiculo.getAll(modelo);
+      return null;
+    //return repositorioVeiculo.getAll(modelo);
   }
   
     public Categoria cadastrarCategoria(Categoria categoria) throws CategoriaJaCadastradaException {

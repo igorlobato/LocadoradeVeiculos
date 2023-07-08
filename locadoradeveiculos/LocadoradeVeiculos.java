@@ -984,7 +984,6 @@ class LocadoradeVeiculos {
 	}
         
         public static void alugarVeiculo() {
-            //
             limpaTela();
             System.out.println("Alugar Veiculo");
             System.out.println("====== =======");

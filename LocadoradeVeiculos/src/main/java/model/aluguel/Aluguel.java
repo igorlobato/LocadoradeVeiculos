@@ -20,6 +20,7 @@ public class Aluguel implements Serializable{
     private double multa;
     private int diasAtrasados;
     private double quilometrosRodados;
+    private boolean houvemulta;
 
     public Aluguel(Veiculo veiculo, String dataSaida, String dataDevolucao, Cliente cliente) {
         this.veiculo = veiculo;
@@ -30,6 +31,16 @@ public class Aluguel implements Serializable{
         this.valorPagar = 0;
     }
     
+    private List<Veiculo> listaVeiculos; 
+
+    public List<Veiculo> getListaVeiculos() {
+        return listaVeiculos;
+    }
+    
+    public void setListaVeiculos(List<Veiculo> listaVeiculos) {
+        this.listaVeiculos = listaVeiculos;
+    }
+
     public Veiculo getVeiculo() {
         return veiculo;
     }
@@ -109,6 +120,14 @@ public class Aluguel implements Serializable{
     public void setQuilometrosRodados(double quilometrosRodados) {
         this.quilometrosRodados = quilometrosRodados;
     }
+
+    public boolean isHouvemulta() {
+        return houvemulta;
+    }
+
+    public void setHouvemulta(boolean houvemulta) {
+        this.houvemulta = houvemulta;
+    }
     
     public void ativo() {
     this.ativo = true;
@@ -118,6 +137,26 @@ public class Aluguel implements Serializable{
     this.ativo = false;
     }
     
+    public void multa(){
+        this.houvemulta = true;
+    }
+    
+    public void verificarDisponibilidade(String modelo){
+            boolean disponivel = true;
+
+       for (Veiculo veiculo : listaVeiculos) {
+           if (veiculo.getModelo().equalsIgnoreCase(modelo)) {
+               disponivel = false;
+               break;
+           }
+       }
+
+       if (disponivel) {
+           System.out.println("O veículo está disponível para aluguel.");
+       } else {
+           System.out.println("O veículo não está disponível para aluguel.");
+       }
+    }
     
     public void calcularQuantidadeDiarias() {
     LocalDate dataSaida = LocalDate.parse(this.dataSaida, DateTimeFormatter.ofPattern("dd/MM/yyyy"));

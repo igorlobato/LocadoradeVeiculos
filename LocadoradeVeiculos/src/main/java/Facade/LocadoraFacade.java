@@ -13,17 +13,17 @@ import model.veiculos.Veiculo;
 import repository.aluguel.AluguelJaCadastradoException;
 import repository.aluguel.AluguelNaoCadastradoException;
 import repository.aluguel.RepositorioAluguel;
-import repository.aluguel.RepositorioAluguelDB;
+import repository.aluguel.RepositorioAluguelLista;
 import repository.categoria.CategoriaJaCadastradaException;
 import repository.categoria.CategoriaNaoCadastradaException;
 import repository.categoria.RepositorioCategoria;
-import repository.categoria.RepositorioCategoriaDB;
+import repository.categoria.RepositorioCategoriaLista;
 import repository.cliente.CPFJaCadastradoException;
 import repository.cliente.ClienteNaoCadastradoException;
 import repository.cliente.RepositorioCliente;
-import repository.cliente.RepositorioClienteDB;
+import repository.cliente.RepositorioClienteLista;
 import repository.veiculos.RepositorioVeiculo;
-import repository.veiculos.RepositorioVeiculoDB;
+import repository.veiculos.RepositorioVeiculoLista;
 import repository.veiculos.VeiculoJaCadastradoException;
 import repository.veiculos.VeiculoNaoCadastradoException;
 
@@ -42,10 +42,10 @@ public class LocadoraFacade{
 		if (file.exists()) {
 			loadData();
 		} else {
-			repositorioCliente = new RepositorioClienteDB();
-                        repositorioVeiculo = new RepositorioVeiculoDB();
-                        repositorioCategoria = new RepositorioCategoriaDB();
-                        repositorioAluguel = new RepositorioAluguelDB();
+			repositorioCliente = new RepositorioClienteLista();
+                        repositorioVeiculo = new RepositorioVeiculoLista();
+                        repositorioCategoria = new RepositorioCategoriaLista();
+                        repositorioAluguel = new RepositorioAluguelLista();
 		}
 	}
 
@@ -84,21 +84,42 @@ public class LocadoraFacade{
   }
 
   public void alterarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException  {
-      //repositorioVeiculo.alterarVeiculo(veiculo);
+      repositorioVeiculo.alterarVeiculo(veiculo);
   }
     
 public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException, LocadoraException {
       repositorioVeiculo.deletarVeiculo(veiculo);
 }
+
+    /*
+  public void deposito(String numero, double valor) throws ContaNaoCadastradaException {
+    Conta conta = repositorioConta.buscarConta(numero);
+    conta.depositar(valor);
+    repositorioConta.alterarConta(conta);
+  }
+
+  public void saque(String numero, double valor) throws ContaNaoCadastradaException, SaldoInsuficienteException {
+    Conta conta = repositorioConta.buscarConta(numero);
+    conta.sacar(valor);
+    repositorioConta.alterarConta(conta);
+  }
+
+  public void tranferir(String origem, String destino, double valor) throws ContaNaoCadastradaException, SaldoInsuficienteException {
+    Conta conta1 = repositorioConta.buscarConta(origem);
+    Conta conta2 = repositorioConta.buscarConta(destino);
+    conta1.transferirPara(conta2, valor);
+    repositorioConta.alterarConta(conta1);
+    repositorioConta.alterarConta(conta2);
+  }
+
+*/
     
   public List<Veiculo> getAllVeiculos() {
     return repositorioVeiculo.getAll();
   }
 
   public List<Veiculo> getAllVeiculos(String modelo) {
-    //return repositorioVeiculo.getAll(modelo);
-      return null;
-    //return repositorioVeiculo.getAll(modelo);
+    return repositorioVeiculo.getAll(modelo);
   }
   
     public Categoria cadastrarCategoria(Categoria categoria) throws CategoriaJaCadastradaException {
@@ -122,10 +143,10 @@ public void deletarVeiculo(Veiculo veiculo) throws VeiculoNaoCadastradoException
     return repositorioCategoria.getAll();
   }
 
-  /*public List<Categoria> getAllCategorias(String para) {
+  public List<Categoria> getAllCategorias(String para) {
     return repositorioCategoria.getAll(para);
   }
-  */
+  
   public Aluguel novoAluguel(Aluguel aluguel) throws AluguelJaCadastradoException {
     repositorioAluguel.novoAluguel(aluguel);
     return aluguel;

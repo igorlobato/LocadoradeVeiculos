@@ -10,7 +10,7 @@ public abstract class Veiculo implements Serializable{
     protected int anodefabricao;
     protected double quilometragem;
     protected Categoria categoria;
-    protected int alugado;
+    protected boolean alugado;
 
 
     public Veiculo(String modelo, String marca, String placa, String cor, int anodefabricao, double quilometragem,
@@ -22,7 +22,7 @@ public abstract class Veiculo implements Serializable{
         this.anodefabricao = anodefabricao;
         this.quilometragem = quilometragem;
         this.categoria = categoria;
-        this.alugado = 0;
+        this.alugado = false;
     }
 
     public double getQuilometragem() {
@@ -82,19 +82,19 @@ public abstract class Veiculo implements Serializable{
     }
 
     public boolean isAlugado() {
-        return alugado != 0;
-    }    
+        return alugado;
+    }
 
-    public void setAlugado(int alugado) {
+    public void setAlugado(boolean alugado) {
         this.alugado = alugado;
     }
     
     public void alugar() {
-    this.alugado = 1;
+    this.alugado = true;
     }
     
     public void devolver() {
-    this.alugado = 0;
+    this.alugado = false;
     }
 
     @Override

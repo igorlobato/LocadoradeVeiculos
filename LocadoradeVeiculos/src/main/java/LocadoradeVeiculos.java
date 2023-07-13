@@ -23,9 +23,6 @@ class LocadoradeVeiculos {
     
     private static LocadoraFacade facade;
     private static Scanner scanner = new Scanner(System.in);
-    
-    public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_YELLOW = "\u001B[33m";
 
     public static void main(String[] args) {
         System.out.println("Carregando o sistema aguade um momento...");
@@ -127,28 +124,19 @@ class LocadoradeVeiculos {
 		System.out.println("Cadastro de Cliente");
 		System.out.println("===================");
 		System.out.print("Nome: ");
-		String cpf = scanner.nextLine();
+		String cpf = scanner.next();
 		System.out.print("CPF: ");
-		String nome = scanner.nextLine();
+		String nome = scanner.next();
                 System.out.print("Endereco: ");
-		String endereco = scanner.nextLine();
+		String endereco = scanner.next();
                 System.out.print("Telefone: ");
-		String fone = scanner.nextLine();
+		String fone = scanner.next();
                 System.out.print("Data de nascimento: ");
-		String nas = scanner.nextLine();
+		String nas = scanner.next();
 		System.out.print("Sexo (M) Mas (F) Fem: ");
-		String sexo = scanner.nextLine();
-                int cnh = 0;
-                boolean cnhValida = false;
-                while (!cnhValida) {
-                    System.out.print("Ano CNH: ");
-                    try {
-                        cnh = Integer.parseInt(scanner.nextLine());
-                        cnhValida = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println(ANSI_YELLOW + "Valor inválido para CNH. Digite um número inteiro válido." + ANSI_RESET);
-                    }
-                }
+		String sexo = scanner.next();
+                System.out.print("Ano CNH: ");
+		int cnh = scanner.nextInt();
                 
 
 		Cliente cliente = new Cliente(cpf, nome, endereco, fone, nas, sexo, cnh);
@@ -162,23 +150,23 @@ class LocadoradeVeiculos {
 
 		System.out.println("tecle <enter> para voltar");
 		scanner.nextLine();
+		scanner.nextLine();
 	}
 
 	private static void listarCliente() {
             limpaTela();
             List<Cliente> clientes = facade.getAllClientes();
             System.out.println("CLIENTES CADASTRADOS");
-            System.out.println("===========================================================================================================");
-            System.out.printf("%-14s %-15s %-10s %-15s %-25s %-15s %-15s\n",
-                    "CPF", "Nome", "Sexo", "Telefone", "Data de Nascimento", "Endereco", "Ano CNH");
+            System.out.println("=============================================================================");
+            System.out.printf("%-14s %-15s %-10s %-15s %-20s\n",
+                    "CPF", "Nome", "Sexo", "Telefone", "Data de Nascimento");
 
             for (Cliente cliente : clientes) {
-                System.out.printf("%-14s %-15s %-10s %-15s %-25s %-15s %-15s\n",
-                        cliente.getCpf(), cliente.getNome(), cliente.getSexo(), cliente.getTelefone(),
-                        cliente.getDatadenascimento(), cliente.getEndereco(), cliente.getAnocnh());
+                System.out.printf("%-14s %-15s %-10s %-15s %-20s\n",
+                        cliente.getCpf(), cliente.getNome(), cliente.getSexo(), cliente.getTelefone(), cliente.getAnocnh());
             }
 
-            System.out.println("===========================================================================================================");
+            System.out.println("=============================================================================");
             System.out.println();
             System.out.println("Pressione <enter> para voltar");
             scanner.nextLine();
@@ -226,12 +214,6 @@ class LocadoradeVeiculos {
 
 		try {
 			Cliente cliente = facade.buscarCliente(cpf);
-                        
-			System.out.print("CPF (<enter> = Não alterar): ");
-			String novoCpf = scanner.nextLine();
-			if (!novoCpf.equals("")) {
-				cliente.setCpf(novoCpf);
-			}
 
 			System.out.println();
 			System.out.println("Nome: " + cliente.getNome());
@@ -254,31 +236,7 @@ class LocadoradeVeiculos {
 			if (!fone.equals("")) {
 				cliente.setTelefone(fone);
 			}
-                        
-                        System.out.println("Endereco: " + cliente.getEndereco());
-			System.out.print("Endereco (<enter> = Não alterar): ");
-			String endereco = scanner.nextLine();
-			if (!endereco.equals("")) {
-				cliente.setEndereco(endereco);
-			}
-                        
-                        System.out.println("Data de Nascimento: " + cliente.getDatadenascimento());
-			System.out.print("Data de Nascimento (<enter> = Não alterar): ");
-			String data = scanner.nextLine();
-			if (!data.equals("")) {
-				cliente.setDatadenascimento(data);
-			}
-                        
-                        System.out.println("Ano CNH: " + cliente.getAnocnh());
-                        System.out.print("Ano CNH (<enter> = Não alterar): ");
-                        String Ano = scanner.nextLine();
 
-                        if (!Ano.equals("")) {
-                            int ano = Integer.parseInt(Ano);
-                            cliente.setAnocnh(ano);
-                        }
-
-                        
 			System.out.println();
 
 			facade.alterarCliente(cliente);
@@ -372,78 +330,37 @@ class LocadoradeVeiculos {
 		} while (opcao != 0);
 	}
 
-        public static void cadastrarCarro() {
+        public static void cadastrarCarro(){
                 limpaTela();
                 System.out.println("Cadastrar Carro");
                 System.out.println("========  =====");
                 System.out.print("Modelo: ");
-                String modelo = scanner.nextLine();
+                String modelo = scanner.next();
                 System.out.print("Marca: ");
-                String marca = scanner.nextLine();
+                String marca = scanner.next();
                 System.out.print("Placa: ");
-                String placa = scanner.nextLine();
+                String placa = scanner.next();
                 System.out.print("Cor: ");
-                String cor = scanner.nextLine();
-
-                int adf = 0;
-                boolean adfValido = false;
-                while (!adfValido) {
-                    System.out.print("Ano de Fabricacao: ");
-                    try {
-                        adf = Integer.parseInt(scanner.nextLine());
-                        adfValido = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Ano de Fabricacao. Digite um número inteiro válido.\u001B[0m");
-                    }
-                }
-
-                double quilometragem = 0.0;
-                boolean quilometragemValida = false;
-                while (!quilometragemValida) {
-                    System.out.print("Quilometragem: ");
-                    try {
-                        quilometragem = Double.parseDouble(scanner.nextLine());
-                        quilometragemValida = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Quilometragem. Digite um número válido.\u001B[0m");
-                    }
-                }
-
+                String cor = scanner.next();
+                System.out.print("Ano de Fabricacao: ");
+                int adf = scanner.nextInt();
+                System.out.print("Quilometragem: ");
+                double quilometragem = scanner.nextDouble();
                 System.out.print("Categoria: ");
-                String categoriaNome = scanner.nextLine();
+                String categoriaNome = scanner.next();
                 Categoria categoria = null;
                 try {
                     categoria = facade.verificarDescricao(categoriaNome);
                 } catch (CategoriaNaoCadastradaException ex) {
                     System.err.println(ex.getMessage());
                 }
-
-                int nportas = 0;
-                boolean nportasValido = false;
-                while (!nportasValido) {
-                    System.out.print("Numero de portas: ");
-                    try {
-                        nportas = Integer.parseInt(scanner.nextLine());
-                        nportasValido = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Numero de portas. Digite um número inteiro válido.\u001B[0m");
-                    }
-                }
-
+                System.out.print("Numero de portas: ");
+                int nportas = scanner.nextInt();
                 System.out.print("Tipo de Combustivel: ");
-                String tcombustivel = scanner.nextLine();
-
-                int cmalas = 0;
-                boolean cmalasValido = false;
-                while (!cmalasValido) {
-                    System.out.print("Capacidade do porta malas(L): ");
-                    try {
-                        cmalas = Integer.parseInt(scanner.nextLine());
-                        cmalasValido = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Capacidade do porta malas. Digite um número inteiro válido.\u001B[0m");
-                    }
-                }
+                String tcombustivel = scanner.next();
+                System.out.print("Capacidade do porta malas: ");
+                int cmalas = scanner.nextInt();
+                
 
                 Carro carro = new Carro(modelo, marca, placa, cor, adf, quilometragem, categoria, nportas, tcombustivel, cmalas);
 
@@ -457,8 +374,8 @@ class LocadoradeVeiculos {
                 System.out.println();
                 System.out.println("tecle <enter> para voltar");
                 scanner.nextLine();
-            }
-
+                scanner.nextLine();
+                    }
         
         
         public static void excluirCarro(){
@@ -602,62 +519,30 @@ class LocadoradeVeiculos {
                 System.out.println("Cadastro de Moto");
                 System.out.println("======== == ====");
                 System.out.print("Modelo: ");
-                String modelo = scanner.nextLine();
+                String modelo = scanner.next();
                 System.out.print("Marca: ");
-                String marca = scanner.nextLine();
+                String marca = scanner.next();
                 System.out.print("Placa: ");
-                String placa = scanner.nextLine();
+                String placa = scanner.next();
                 System.out.print("Cor: ");
-                String cor = scanner.nextLine();
-
-                int adf = 0;
-                boolean adfValido = false;
-                while (!adfValido) {
-                    System.out.print("Ano de Fabricacao: ");
-                    try {
-                        adf = Integer.parseInt(scanner.nextLine());
-                        adfValido = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Ano de Fabricacao. Digite um número inteiro válido.\u001B[0m");
-                    }
-                }
-
-                double quilometragem = 0.0;
-                boolean quilometragemValida = false;
-                while (!quilometragemValida) {
-                    System.out.print("Quilometragem: ");
-                    try {
-                        quilometragem = Double.parseDouble(scanner.nextLine());
-                        quilometragemValida = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Quilometragem. Digite um número válido.\u001B[0m");
-                    }
-                }
-
+                String cor = scanner.next();
+                System.out.print("Ano de Fabricacao: ");
+                int adf = scanner.nextInt();
+                System.out.print("Quilometragem: ");
+                double quilometragem = scanner.nextDouble();
                 System.out.print("Categoria: ");
-                String categoriaNome = scanner.nextLine();
+                String categoriaNome = scanner.next();
                 Categoria categoria = null;
                 try {
                     categoria = facade.verificarDescricao(categoriaNome);
                 } catch (CategoriaNaoCadastradaException ex) {
                     System.err.println(ex.getMessage());
                 }
-
-                int cilindrada = 0;
-                boolean cilindradaValida = false;
-                while (!cilindradaValida) {
-                    System.out.print("Cilindrada: ");
-                    try {
-                        cilindrada = Integer.parseInt(scanner.nextLine());
-                        cilindradaValida = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Cilindrada. Digite um número inteiro válido.\u001B[0m");
-                    }
-                }
-
+                System.out.print("Cilindrada: ");
+                int cilindrada = scanner.nextInt();
                 System.out.print("Tipo de Motor: ");
-                String tMotor = scanner.nextLine();
-
+                String tMotor = scanner.next();
+                
                 Moto moto = new Moto(modelo, marca, placa, cor, adf, quilometragem, categoria, cilindrada, tMotor);
 
                 try {
@@ -666,9 +551,11 @@ class LocadoradeVeiculos {
                 } catch (VeiculoJaCadastradoException ex) {
                     System.err.println(ex.getMessage());
                 }
-
+                 
+                
                 System.out.println();
                 System.out.println("tecle <enter> para voltar");
+                scanner.nextLine();
                 scanner.nextLine();
             }
         
@@ -745,14 +632,14 @@ class LocadoradeVeiculos {
             System.out.println("MOTOS CADASTRADAS");
             System.out.println("============================================================================================================="
                     + "==========================================================================");
-            System.out.printf("%-10s %-15s %-10s %-10s %-20s %-15s %-15s %-20s %-20s %-20s \n",
+            System.out.printf("%-10s %-10s %-10s %-10s %-20s %-15s %-15s %-20s %-20s %-20s \n",
                     "Marca", "Modelo", "Placa", "Cor", "Ano de Fabricação", "Quilometragem",
                     "Categoria", "Cilindrada", "Tipo de Motor", "Status Alugado");
 
             for (Veiculo veiculo : veiculos) {
                 if (veiculo instanceof Moto) {
                     Moto moto = (Moto) veiculo;
-                    System.out.printf("%-10s %-15s %-10s %-10s %-20s %-15s %-15s %-20s %-20s %-20s\n",
+                    System.out.printf("%-10s %-10s %-10s %-10s %-20s %-15s %-15s %-20s %-20s %-20s\n",
                             moto.getMarca(), moto.getModelo(), moto.getPlaca(), moto.getCor(),
                             moto.getAnodefabricao(), moto.getQuilometragem(), moto.getCategoria(),
                             moto.getCilindrada(), moto.getTipodemotor(), moto.isAlugado());
@@ -812,22 +699,13 @@ class LocadoradeVeiculos {
 		System.out.println("Cadastro de Categoria");
 		System.out.println("======== == =======");
 		System.out.print("Categoria: ");
-		String categorian = scanner.nextLine();
+		String categorian = scanner.next();
 		System.out.print("Descricao: ");
-		String descricao = scanner.nextLine();
-                double valorDiaria = 0.0;
-                boolean vdValida = false;
-                while (!vdValida) {
-                    System.out.print("Valor da diaria: ");
-                    try {
-                        valorDiaria = Double.parseDouble(scanner.nextLine());
-                        vdValida = true;
-                    } catch (NumberFormatException ex) {
-                        System.err.println("\u001B[31mValor inválido para Diaria. Digite um número válido.\u001B[0m");
-                    }
-                }
+		String descricao = scanner.next();
+                System.out.print("Valor da diaria: ");
+		Double valorDiaria = scanner.nextDouble();
                 System.out.print("Para (Carros ou Motos): ");
-		String para = scanner.nextLine();
+		String para = scanner.next();
                 
 
 		Categoria categoria = new Categoria(categorian, descricao, valorDiaria, para);
@@ -840,6 +718,7 @@ class LocadoradeVeiculos {
 		}
 
 		System.out.println("tecle <enter> para voltar");
+		scanner.nextLine();
 		scanner.nextLine();
 	}
 
@@ -966,7 +845,7 @@ class LocadoradeVeiculos {
 			System.out.println("<1> Alugar Veiculo");
 			System.out.println("<2> Devolver Veiculo");
 			System.out.println("<3> Listar Alugueis");
-			System.out.println("<4> Listar Alugueis de Cliente");
+			System.out.println("<4> Listar Veiculos de Cliente");
                         System.out.println("<5> Historico de Alugueis");
 			System.out.println("<0> Menu Principal");
 			System.out.println();
@@ -1009,7 +888,7 @@ class LocadoradeVeiculos {
             System.out.println("====== =======");
 
             System.out.print("Digite a placa do veículo: ");
-            String veiculoPlaca = scanner.nextLine();
+            String veiculoPlaca = scanner.next();
 
             Veiculo veiculo = null;
             try {
@@ -1116,33 +995,16 @@ class LocadoradeVeiculos {
                         int diasAtraso = Integer.parseInt(scanner.nextLine());
                         aluguel.setDiasAtrasados(diasAtraso);
                         aluguel.setMulta(diasAtraso * 300);
-                        aluguel.multa();
                     } else {
                         aluguel.setDiasAtrasados(0);
                         aluguel.setMulta(0);
                     }
-                    
-                     System.out.println();
-
-                    System.out.print("A quilometragem do veiculo antes do aluguel era " + aluguel.getVeiculo().getQuilometragem() +
-                    " Qual a quilometragem atual do veiculo?\n");
-                    Double novaquilometragem = scanner.nextDouble();
-                    
-                    double quilometragemAntiga = aluguel.getVeiculo().getQuilometragem();
-                    
-                    aluguel.getVeiculo().setQuilometragem(novaquilometragem);
-                    
-                    aluguel.setQuilometrosRodados(aluguel.getVeiculo().getQuilometragem() - quilometragemAntiga);
-                    
-                    double valorsemmulta = aluguel.getValorPagar();
 
                     aluguel.setValorPagar(aluguel.getVeiculo().getCategoria().getValorDiaria() * aluguel.getQuantidadeDiarias() + aluguel.getMulta());
 
                     System.out.println("Veiculo devolvido!\n");
                     System.out.println("Quantidade de dias com o veículo: " + aluguel.getQuantidadeDiarias());
-                    System.out.println("Quilometros rodados pelo cliente: " + aluguel.getQuilometrosRodados());
                     System.out.println("Dias de atraso: " + aluguel.getDiasAtrasados());
-                    System.out.println("Valor do aluguel: " + valorsemmulta);
                     System.out.println("Valor da multa: R$" + aluguel.getMulta());
                     System.out.println("Valor a pagar: R$" + aluguel.getValorPagar());
                 }
@@ -1155,27 +1017,21 @@ class LocadoradeVeiculos {
             System.out.println();
             System.out.println("tecle <enter> para voltar");
             scanner.nextLine();
-            scanner.nextLine();
         }
 
 
         
         public static void listarVeiculosCliente() {
             limpaTela();
-            System.out.println("Consultar alugueis de cliente");
+            System.out.println("Consultar veículos alugados de cliente");
             System.out.println("======================================");
             System.out.print("CPF do cliente: ");
-            String clienteCpf = scanner.nextLine();
+            String clienteCpf = scanner.next();
             Cliente cliente = null;
             try {
                 cliente = facade.buscarCliente(clienteCpf);
             } catch (ClienteNaoCadastradoException ex) {
                 System.err.println(ex.getMessage());
-                System.out.println();
-                System.out.println("tecle <enter> para voltar");
-                scanner.nextLine();
-                scanner.nextLine();
-                return;
             }
 
             try {
@@ -1183,15 +1039,14 @@ class LocadoradeVeiculos {
                 System.out.println("ALUGUEIS DO CLIENTE");
                 System.out.println("============================================================================================================="
                         + "==========================================================================");
-                System.out.printf("%-25s %-25s %-25s %-25s %-15s %-15s %-15s %-15s\n",
-                        "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente", "Ativo",
-                        "Multado", "Valor pago/A pagar");
+                System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
+                        "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente", "Ativo");
 
                 for (Aluguel aluguel : alugueis) {
                     if (aluguel.getCliente().equals(cliente)) {
-                        System.out.printf("%-25s %-25s %-25s %-25s %-15s %-15s %-15s %-15s\n",
+                        System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
                                 aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                                aluguel.getCliente().getNome(), aluguel.isAtivo(), aluguel.isHouvemulta(), aluguel.getValorPagar());
+                                aluguel.getCliente().getNome(), aluguel.isAtivo());
                     }
                 }
             } catch (ClienteNaoCadastradoException ex) {
@@ -1236,21 +1091,21 @@ class LocadoradeVeiculos {
 
             System.out.println("Historico de Alugueis");
             System.out.println("============================================================================================================="
-                    + "=========================================================================================");
-            System.out.printf("%-25s %-20s %-20s %-25s %-15s %-25s %-25s %-15s\n",
+                    + "==========================================================================");
+            System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
                     "Modelo do Veiculo", "Placa do Veiculo", "Data de Saida", "Data de Devolucao", "Cliente",
-                    "Valor Cobrado", "Quilometros Rodados", "Multado");
+                    "Valor Cobrado");
 
             for (Aluguel aluguel : alugueis) {
                 if (!aluguel.isAtivo()) {
-                    System.out.printf("%-25s %-20s %-20s %-25s %-15s %-25s %-25s %-15s\n",
+                    System.out.printf("%-25s %-25s %-25s %-25s %-25s %-25s\n",
                             aluguel.getVeiculo().getModelo(), aluguel.getVeiculo().getPlaca(), aluguel.getDataSaida(), aluguel.getDataDevolucao(),
-                            aluguel.getCliente().getNome(), aluguel.getValorPagar(), aluguel.getQuilometrosRodados(), aluguel.isHouvemulta());
+                            aluguel.getCliente().getNome(), aluguel.getValorPagar());
                 }
             }
 
             System.out.println("============================================================================================================="
-                    + "=========================================================================================");
+                    + "==========================================================================");
             System.out.println();
             System.out.println("Pressione <enter> para voltar");
             scanner.nextLine();

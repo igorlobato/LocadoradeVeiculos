@@ -78,6 +78,10 @@ public class Cliente implements Serializable{
         this.anocnh = anocnh;
     }
     
+    public void Garagem(){
+        
+    }
+    
     @Override
     public String toString() {
         return "Cliente{" + "nome=" + nome + ", cpf=" + cpf + ", endereco=" + endereco + ", telefone=" + telefone +

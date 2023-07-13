@@ -14,4 +14,6 @@ public interface RepositorioCategoria {
     Categoria verificarDescricao(String categoria) throws CategoriaNaoCadastradaException;
 
     List<Categoria> getAll();
+    
+    List<Categoria> getAll(String para);
 }
